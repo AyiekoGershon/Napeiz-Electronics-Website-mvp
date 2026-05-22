@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Napeiz Electronics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-bolt"></i>
+                <span>Napeiz Admin</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" data-page="dashboard" class="active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" data-page="products">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a href="#" data-page="addProduct">
+                    <i class="fas fa-plus-circle"></i> Add Product
+                </a>
+                <a href="#" data-page="categories">
+                    <i class="fas fa-tags"></i> Categories
+                </a>
+                <a href="#" data-page="brands">
+                    <i class="fas fa-copyright"></i> Brands
+                </a>
+                <a href="index.html" target="_blank">
+                    <i class="fas fa-store"></i> View Store
+                </a>
+                <a href="#" onclick="confirmLogout()" style="margin-top:auto;color:var(--danger);">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;color:rgba(255,255,255,0.4);">
+                <div id="adminInfo"></div>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="admin-main">
+            <!-- ===== DASHBOARD PAGE ===== -->
+            <div class="admin-page" id="dashboardPage">
+                <div class="admin-header">
+                    <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                    <span style="color:var(--text-light);font-size:14px;" id="lastUpdate"></span>
+                </div>
+                <div class="admin-stats" id="dashboardStats">
+                    <div class="stat-card"><h3>Total Products</h3><div class="number" id="statTotalProducts">—</div></div>
+                    <div class="stat-card"><h3>Inventory Value</h3><div class="number" id="statInventoryValue">—</div></div>
+                    <div class="stat-card"><h3>Categories</h3><div class="number" id="statCategories">—</div></div>
+                    <div class="stat-card"><h3>Brands</h3><div class="number" id="statBrands">—</div></div>
+                </div>
+                <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:25px;margin-bottom:25px;">
+                    <h3 style="margin-bottom:15px;"><i class="fas fa-chart-bar"></i> Quick Overview</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;">
+                        <div style="padding:15px;background:var(--gray);border-radius:var(--radius-sm);">
+                            <div style="font-size:12px;color:var(--text-light);">Low Stock Items</div>
+                            <div style="font-size:24px;font-weight:800;color:var(--warning);" id="statLowStock">0</div>
+                        </div>
+                        <div style="padding:15px;background:var(--gray);border-radius:var(--radius-sm);">
+                            <div style="font-size:12px;color:var(--text-light);">Featured Products</div>
+                            <div style="font-size:24px;font-weight:800;color:var(--primary);" id="statFeatured">0</div>
+                        </div>
+                        <div style="padding:15px;background:var(--gray);border-radius:var(--radius-sm);">
+                            <div style="font-size:12px;color:var(--text-light);">Out of Stock</div>
+                            <div style="font-size:24px;font-weight:800;color:var(--danger);" id="statOutOfStock">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PRODUCTS LIST PAGE ===== -->
+            <div class="admin-page" id="productsPage" style="display:none;">
+                <div class="admin-header">
+                    <h1><i class="fas fa-box"></i> All Products</h1>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <input type="text" id="adminSearch" placeholder="Search products..." style="padding:10px 15px;border:2px solid var(--gray-dark);border-radius:50px;font-size:14px;outline:none;width:250px;">
+                        <button class="btn btn-primary" onclick="showAdminPage('addProduct')">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                </div>
+                <div class="admin-table" style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">#</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th style="width:100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductList">
+                            <tr><td colspan="7" style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== ADD/EDIT PRODUCT PAGE (Jumia-like) ===== -->
+            <div class="admin-page" id="addProductPage" style="display:none;">
+                <div class="admin-header">
+                    <h1><i class="fas fa-edit"></i> <span id="formTitle">Add New Product</span></h1>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-outline" onclick="showAdminPage('products')">
+                            <i class="fas fa-arrow-left"></i> Products List
+                        </button>
+                    </div>
+                </div>
+
+                <form id="productForm" style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px;max-width:1000px;">
+                    <!-- Basic Info -->
+                    <h3 style="margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--primary);color:var(--primary);">
+                        <i class="fas fa-info-circle"></i> Basic Information
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pName">Product Name *</label>
+                            <input type="text" id="pName" placeholder="e.g., Samsung 65" 4K Smart TV" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pSlug">URL Slug</label>
+                            <input type="text" id="pSlug" placeholder="Auto-generated if empty">
+                            <small style="color:var(--text-light);">Leave empty for auto-generation</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pSKU">SKU (Stock Keeping Unit)</label>
+                            <input type="text" id="pSKU" placeholder="e.g., SAM-65-4K-001">
+                        </div>
+                        <div class="form-group">
+                            <label for="pBarcode">Barcode / UPC</label>
+                            <input type="text" id="pBarcode" placeholder="e.g., 8806094685242">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pCategory">Category *</label>
+                            <select id="pCategory" required><option value="">Select Category</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pBrand">Brand *</label>
+                            <select id="pBrand" required><option value="">Select Brand</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Pricing -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--secondary);color:var(--secondary);">
+                        <i class="fas fa-tags"></i> Pricing
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pPrice">Selling Price (KSh) *</label>
+                            <input type="number" id="pPrice" placeholder="e.g., 89999" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pOldPrice">Original/MRP Price (KSh)</label>
+                            <input type="number" id="pOldPrice" placeholder="e.g., 109999" min="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pCostPrice">Cost Price (KSh) - hidden from customers</label>
+                            <input type="number" id="pCostPrice" placeholder="e.g., 65000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Discount (auto-calculated)</label>
+                            <div style="padding:12px 15px;background:var(--gray);border-radius:var(--radius-sm);font-size:18px;font-weight:700;color:var(--secondary);" id="discountDisplay">0% OFF</div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--success);color:var(--success);">
+                        <i class="fas fa-align-left"></i> Description & Features
+                    </h3>
+                    <div class="form-group">
+                        <label for="pShortDesc">Short Description</label>
+                        <textarea id="pShortDesc" placeholder="Brief product description for cards..." style="min-height:60px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pFullDesc">Full Description</label>
+                        <textarea id="pFullDesc" placeholder="Detailed product description..." style="min-height:120px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pFeatures">Key Features (one per line)</label>
+                        <textarea id="pFeatures" placeholder="4K UHD Resolution&#10;HDR 10+ Support&#10;Dolby Digital Plus" style="min-height:100px;"></textarea>
+                    </div>
+
+                    <!-- Specifications (dynamic key-value pairs) -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--warning);color:var(--warning);">
+                        <i class="fas fa-list-ul"></i> Specifications
+                    </h3>
+                    <div id="specsContainer">
+                        <div class="form-row spec-row" style="margin-bottom:10px;">
+                            <div class="form-group" style="flex:1;">
+                                <input type="text" class="spec-key" placeholder="Spec name (e.g., Screen Size)">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <input type="text" class="spec-value" placeholder="Spec value (e.g., 65 inches)">
+                            </div>
+                            <div style="display:flex;align-items:flex-end;padding-bottom:20px;">
+                                <button type="button" class="btn-view" onclick="removeSpec(this)" style="color:var(--danger);padding:10px 12px;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline" onclick="addSpec()" style="margin-bottom:20px;">
+                        <i class="fas fa-plus"></i> Add Specification
+                    </button>
+
+                    <!-- Media -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--primary);color:var(--primary);">
+                        <i class="fas fa-images"></i> Media
+                    </h3>
+                    <div class="form-group">
+                        <label for="pMainImage">Main Image URL</label>
+                        <input type="text" id="pMainImage" placeholder="https://example.com/image.jpg">
+                        <small style="color:var(--text-light);">Paste a direct image URL or upload to images/ folder</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="pGallery">Gallery Images (one URL per line)</label>
+                        <textarea id="pGallery" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" style="min-height:60px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pVideo">Video URL (YouTube/Vimeo)</label>
+                        <input type="text" id="pVideo" placeholder="https://www.youtube.com/watch?v=...">
+                    </div>
+
+                    <!-- Inventory -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--dark);color:var(--dark);">
+                        <i class="fas fa-warehouse"></i> Inventory & Status
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pStockQty">Stock Quantity</label>
+                            <input type="number" id="pStockQty" placeholder="e.g., 50" min="0" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="pLowStock">Low Stock Threshold</label>
+                            <input type="number" id="pLowStock" placeholder="e.g., 5" min="0" value="5">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pInStock">Stock Status</label>
+                            <select id="pInStock">
+                                <option value="true">In Stock</option>
+                                <option value="false">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Flags</label>
+                            <div style="display:flex;gap:15px;flex-wrap:wrap;padding-top:5px;">
+                                <label style="font-weight:400;cursor:pointer;">
+                                    <input type="checkbox" id="pFeatured"> <strong>Featured</strong>
+                                </label>
+                                <label style="font-weight:400;cursor:pointer;">
+                                    <input type="checkbox" id="pNew"> <strong>New Arrival</strong>
+                                </label>
+                                <label style="font-weight:400;cursor:pointer;">
+                                    <input type="checkbox" id="pBestSeller"> <strong>Best Seller</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--success);color:var(--success);">
+                        <i class="fas fa-truck"></i> Delivery & Warranty
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pWeight">Weight (kg)</label>
+                            <input type="number" id="pWeight" placeholder="e.g., 2.5" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="pDimensions">Dimensions</label>
+                            <input type="text" id="pDimensions" placeholder="e.g., 30 x 20 x 10 cm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pWarranty">Warranty Information</label>
+                        <input type="text" id="pWarranty" placeholder="e.g., 1 Year Manufacturer Warranty">
+                    </div>
+                    <div class="form-group">
+                        <label for="pDeliveryInfo">Delivery Information</label>
+                        <textarea id="pDeliveryInfo" placeholder="e.g., Free delivery within Migori. 2-3 business days to upcountry." style="min-height:60px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pReturnPolicy">Return Policy</label>
+                        <textarea id="pReturnPolicy" placeholder="e.g., 7-day return policy. Item must be unused and in original packaging." style="min-height:60px;"></textarea>
+                    </div>
+
+                    <!-- SEO -->
+                    <h3 style="margin:30px 0 20px;padding-bottom:10px;border-bottom:2px solid var(--primary);color:var(--primary);">
+                        <i class="fas fa-search"></i> SEO Settings
+                    </h3>
+                    <div class="form-group">
+                        <label for="pMetaTitle">Meta Title</label>
+                        <input type="text" id="pMetaTitle" placeholder="Auto-generated from product name if empty">
+                    </div>
+                    <div class="form-group">
+                        <label for="pMetaDesc">Meta Description</label>
+                        <textarea id="pMetaDesc" placeholder="Brief description for search engines..." style="min-height:60px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pMetaKeywords">Meta Keywords (comma-separated)</label>
+                        <input type="text" id="pMetaKeywords" placeholder="e.g., samsung tv, 4k tv, smart tv">
+                    </div>
+
+                    <!-- Submit -->
+                    <div style="display:flex;gap:10px;margin-top:30px;padding-top:20px;border-top:2px solid var(--gray);">
+                        <button type="submit" class="btn btn-primary" id="submitBtn" style="padding:14px 40px;">
+                            <i class="fas fa-save"></i> <span id="submitBtnText">Add Product</span>
+                        </button>
+                        <button type="button" class="btn btn-outline" id="cancelEdit" style="display:none;" onclick="cancelEdit()">
+                            <i class="fas fa-times"></i> Cancel Edit
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="showAdminPage('products')" style="margin-left:auto;">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ===== CATEGORIES PAGE ===== -->
+            <div class="admin-page" id="categoriesPage" style="display:none;">
+                <div class="admin-header">
+                    <h1><i class="fas fa-tags"></i> Manage Categories</h1>
+                    <button class="btn btn-primary" onclick="showAddCategoryModal()">
+                        <i class="fas fa-plus"></i> Add Category
+                    </button>
+                </div>
+                <div class="admin-table">
+                    <table>
+                        <thead><tr><th>#</th><th>Name</th><th>Slug</th><th>Icon</th><th>Order</th><th>Actions</th></tr></thead>
+                        <tbody id="categoryList"><tr><td colspan="6" style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== BRANDS PAGE ===== -->
+            <div class="admin-page" id="brandsPage" style="display:none;">
+                <div class="admin-header">
+                    <h1><i class="fas fa-copyright"></i> Manage Brands</h1>
+                    <button class="btn btn-primary" onclick="showAddBrandModal()">
+                        <i class="fas fa-plus"></i> Add Brand
+                    </button>
+                </div>
+                <div class="admin-table">
+                    <table>
+                        <thead><tr><th>#</th><th>Name</th><th>Slug</th><th>Icon</th><th>Active</th><th>Actions</th></tr></thead>
+                        <tbody id="brandList"><tr><td colspan="6" style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== CATEGORY MODAL ===== -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h2 id="categoryModalTitle">Add Category</h2>
+                <button class="modal-close" onclick="closeModal('categoryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="categoryForm">
+                    <input type="hidden" id="catEditId">
+                    <div class="form-group">
+                        <label for="catName">Category Name *</label>
+                        <input type="text" id="catName" placeholder="e.g., TVs & Home Theatre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="catSlug">Slug</label>
+                        <input type="text" id="catSlug" placeholder="Auto-generated if empty">
+                    </div>
+                    <div class="form-group">
+                        <label for="catIcon">Icon (Font Awesome class)</label>
+                        <input type="text" id="catIcon" placeholder="e.g., tv, mobile-alt, laptop">
+                    </div>
+                    <div class="form-group">
+                        <label for="catOrder">Display Order</label>
+                        <input type="number" id="catOrder" placeholder="e.g., 1" min="0" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BRAND MODAL ===== -->
+    <div class="modal" id="brandModal">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h2 id="brandModalTitle">Add Brand</h2>
+                <button class="modal-close" onclick="closeModal('brandModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="brandForm">
+                    <input type="hidden" id="brandEditId">
+                    <div class="form-group">
+                        <label for="brandName">Brand Name *</label>
+                        <input type="text" id="brandName" placeholder="e.g., Samsung" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brandSlug">Slug</label>
+                        <input type="text" id="brandSlug" placeholder="Auto-generated if empty">
+                    </div>
+                    <div class="form-group">
+                        <label for="brandIcon">Icon (Font Awesome class)</label>
+                        <input type="text" id="brandIcon" placeholder="e.g., mobile-alt, apple-alt">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save Brand</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

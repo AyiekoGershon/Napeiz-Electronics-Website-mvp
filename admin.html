@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Napeiz Electronics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <style>
+        body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+        .login-card {
+            animation: slideUp 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .login-error {
+            display: none;
+            color: var(--danger);
+            background: #fde8e8;
+            padding: 12px 15px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            border-left: 4px solid var(--danger);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray);
+        }
+        .login-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .login-footer a:hover { text-decoration: underline; }
+        .password-field { position: relative; }
+        .password-field input { padding-right: 45px; }
+        .toggle-password {
+            position: absolute; right: 15px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none;
+            color: var(--text-light); cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group label { font-size: 13px; }
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+        }
+    </style>
+</head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);">
+        <div class="logo" style="justify-content:center;margin-bottom:15px;">
+            <div class="logo-icon">⚡</div>
+            <div class="logo-text">
+                <h1>Napeiz Electronics</h1>
+                <span>Administration Panel</span>
+            </div>
+        </div>
+        
+        <div style="text-align:center;margin-bottom:25px;">
+            <div style="width:60px;height:60px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+                <i class="fas fa-lock" style="font-size:24px;color:var(--primary);"></i>
+            </div>
+            <p style="color:var(--text-light);font-size:14px;">Restricted access. Authorized personnel only.</p>
+        </div>
+
+        <div id="loginError" class="login-error"></div>
+
+        <form id="loginForm" autocomplete="off">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user" style="width:16px;"></i> Username or Email</label>
+                <input type="text" id="username" placeholder="Enter admin username or email" required autocomplete="off" autofocus style="background:var(--gray);">
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-key" style="width:16px;"></i> Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Enter password" required autocomplete="off" style="background:var(--gray);">
+                    <button type="button" class="toggle-password" onclick="togglePassword()" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="loginBtn" style="padding:14px;">
+                <i class="fas fa-sign-in-alt"></i> <span id="loginBtnText">Login to Dashboard</span>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Storefront</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                pwd.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // If already logged in, redirect to dashboard
+            if (DB.isLoggedIn()) {
+                window.location.href = 'admin-dashboard.html';
+                return;
+            }
+
+            const form = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+            const errorMsg = document.getElementById('loginError');
+
+            // Initialize Supabase
+            const connected = await DB.init();
+            if (!connected) {
+                errorMsg.textContent = 'Could not connect to database. Check your Supabase configuration.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMsg.style.display = 'none';
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    errorMsg.textContent = 'Please enter both username and password.';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtnText.textContent = 'Authenticating...';
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+
+                try {
+                    const session = await DB.login(username, password);
+                    
+                    // Success
+                    errorMsg.style.display = 'none';
+                    loginBtn.innerHTML = '<i class="fas fa-check-circle"></i> Success! Redirecting...';
+                    loginBtn.style.background = 'var(--success)';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 800);
+                } catch (err) {
+                    console.error('Admin login failed:', err);
+                    const message = err.message || 'Invalid username or password.';
+                    errorMsg.textContent = message;
+                    errorMsg.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
+                }
+            });
+
+            // Allow Enter key to submit
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Napeiz Electronics Accessories - Your Trusted Electronics Destination. Shop for genuine electronic appliances from top brands.">
+    <title>Napeiz Electronics Accessories | Premium Electronics Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+    <!-- ===== STORE CONTENT ===== -->
+    <div id="storeContent" style="display:block;">
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-info">
+                <span><i class="fas fa-phone"></i> +254 708 521 714</span>
+                <span><i class="fas fa-envelope"></i> info@napeizelectronics.co.ke</span>
+                <span><i class="fas fa-map-marker-alt"></i> Mabera Town, Migori</span>
+            </div>
+            <div class="top-bar-info">
+                <span><i class="fas fa-truck"></i> Free Delivery in Migori</span>
+                <span><i class="fas fa-shield-alt"></i> 100% Genuine Products</span>
+                <span style="cursor:pointer;color:var(--primary);" onclick="Router.goToAdmin()"><i class="fas fa-lock"></i> Admin</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <h1>Napeiz Electronics</h1>
+                    <span>Accessories & Appliances</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#hero" class="active">Home</a>
+                <a href="#productsSection">Products</a>
+                <a href="#featuredSection">Featured</a>
+                <a href="#brandsSection">Brands</a>
+                <a href="#contactSection">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <button class="cart-btn" id="cartBtn" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <div class="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Trusted <span>Electronics</span> Destination</h1>
+                <p>Discover premium electronic appliances from the world's leading brands. From smartphones and laptops to home theatre systems and gaming consoles — we've got you covered at unbeatable prices.</p>
+                <div style="display:flex;gap:15px;flex-wrap:wrap;">
+                    <a href="#productsSection" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Shop Now
+                    </a>
+                    <a href="https://wa.me/254708521714" target="_blank" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Chat with Us
+                    </a>
+                </div>
+                <div class="hero-stats" id="heroStats">
+                    <div class="hero-stat">
+                        <h3 id="statProducts">500+</h3>
+                        <p>Products</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3 id="statBrands">50+</h3>
+                        <p>Brands</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3 id="statCustomers">1000+</h3>
+                        <p>Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-placeholder">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Powering Your Digital Life</h3>
+                    <p style="color:rgba(255,255,255,0.6);font-size:14px;margin-top:10px;">Premium Electronics • Best Prices • Trusted Quality</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Free Delivery</h3>
+                    <p>Free delivery within Migori for all orders. Same-day delivery available.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>100% Genuine</h3>
+                    <p>All products are 100% authentic with manufacturer warranty included.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <h3>24/7 Support</h3>
+                    <p>Reach us anytime via WhatsApp or phone for quick assistance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-undo-alt"></i></div>
+                    <h3>Easy Returns</h3>
+                    <p>7-day return policy on all products. Customer satisfaction guaranteed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FILTER SECTION ===== -->
+    <div class="filter-section" id="productsSection">
+        <div class="container">
+            <div class="filter-group" id="categoryFilters">
+                <!-- Dynamic categories from DB -->
+                <button class="filter-btn category-filter active" data-category="all">All</button>
+            </div>
+            <div class="filter-group">
+                <select id="brandFilter" class="search-filter">
+                    <option value="all">All Brands</option>
+                </select>
+                <select id="sortFilter" class="search-filter">
+                    <option value="newest">Newest</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PRODUCTS SECTION ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Products</h2>
+                <p>Browse our extensive collection of premium electronics from top global brands.</p>
+            </div>
+            <div class="product-grid" id="productGrid">
+                <div class="loading" style="display:block;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    <section class="section" id="featuredSection" style="background:var(--gray);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p>Hand-picked top deals and new arrivals you don't want to miss.</p>
+            </div>
+            <div class="product-grid" id="featuredGrid">
+                <div class="loading" style="display:block;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading featured products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BRANDS SECTION ===== -->
+    <section class="brands-section" id="brandsSection">
+        <div class="container">
+            <div class="section-header">
+                <h2>Top Brands</h2>
+                <p>We stock products from the world's most trusted electronics brands.</p>
+            </div>
+            <div class="brands-grid" id="brandsGrid">
+                <div class="loading" style="display:block;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading brands...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to receive notifications about new arrivals, exclusive deals, and special offers.</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" id="newsletterEmail" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-secondary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="contactSection">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom:20px;">
+                        <div class="logo-icon">⚡</div>
+                        <div class="logo-text">
+                            <h1 style="color:white;-webkit-text-fill-color:white;">Napeiz Electronics</h1>
+                            <span style="color:rgba(255,255,255,0.5);">Accessories & Appliances</span>
+                        </div>
+                    </div>
+                    <p>Your trusted destination for premium electronic appliances and accessories. We offer the best brands at competitive prices with exceptional customer service.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://wa.me/254708521714" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#productsSection"><i class="fas fa-chevron-right"></i> All Products</a></li>
+                        <li><a href="#featuredSection"><i class="fas fa-chevron-right"></i> Featured Deals</a></li>
+                        <li><a href="#brandsSection"><i class="fas fa-chevron-right"></i> Top Brands</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links" id="footerCategories">
+                        <li><a href="#productsSection"><i class="fas fa-chevron-right"></i> Loading...</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Mabera Town, Migori<br>Kenya</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+254 708 521 714</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@napeizelectronics.co.ke</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mon - Sat: 8:00 AM - 7:00 PM<br>Sun: 10:00 AM - 4:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Napeiz Electronics Accessories. All rights reserved. | Powered by <strong>Napeiz Technologies</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== PRODUCT MODAL ===== -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Product Details</h2>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CART MODAL ===== -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content" style="max-width:700px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+                <button class="modal-close" onclick="closeModal('cartModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+    </div><!-- End storeContent -->
+
+    <!-- ===== ADMIN CONTENT ===== -->
+    <div id="adminContent" style="display:none;">
+        <!-- Admin Login Section -->
+        <div id="adminLoginContainer" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+            <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.1);animation:slideUp 0.5s ease;">
+                <div class="logo" style="justify-content:center;margin-bottom:15px;">
+                    <div class="logo-icon">⚡</div>
+                    <div class="logo-text">
+                        <h1>Napeiz Electronics</h1>
+                        <span>Administration Panel</span>
+                    </div>
+                </div>
+                
+                <div style="text-align:center;margin-bottom:25px;">
+                    <div style="width:60px;height:60px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+                        <i class="fas fa-lock" style="font-size:24px;color:var(--primary);"></i>
+                    </div>
+                    <p style="color:var(--text-light);font-size:14px;">Restricted access. Authorized personnel only.</p>
+                </div>
+
+                <div id="loginError" class="login-error" style="display:none;color:var(--danger);background:#fde8e8;padding:12px 15px;border-radius:var(--radius-sm);margin-bottom:20px;font-size:14px;text-align:center;border-left:4px solid var(--danger);"></div>
+
+                <form id="adminLoginForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="adminUsername" style="font-size:13px;"><i class="fas fa-user" style="width:16px;"></i> Username or Email</label>
+                        <input type="text" id="adminUsername" placeholder="Enter admin username or email" required autocomplete="off" autofocus style="background:var(--gray);width:100%;padding:10px 12px;border:2px solid var(--gray-dark);border-radius:var(--radius-sm);font-size:14px;outline:none;">
+                    </div>
+                    <div class="form-group" style="margin-bottom:20px;">
+                        <label for="adminPassword" style="font-size:13px;"><i class="fas fa-key" style="width:16px;"></i> Password</label>
+                        <div style="position:relative;">
+                            <input type="password" id="adminPassword" placeholder="Enter password" required autocomplete="off" style="background:var(--gray);width:100%;padding:10px 12px;padding-right:45px;border:2px solid var(--gray-dark);border-radius:var(--radius-sm);font-size:14px;outline:none;">
+                            <button type="button" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-light);cursor:pointer;font-size:16px;" onclick="toggleAdminPassword()" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="adminLoginBtn" style="padding:14px;width:100%;">
+                        <i class="fas fa-sign-in-alt"></i> <span id="adminLoginBtnText">Login to Dashboard</span>
+                    </button>
+                </form>
+
+                <div style="text-align:center;margin-top:25px;padding-top:20px;border-top:1px solid var(--gray);">
+                    <a href="/" style="color:var(--primary);font-weight:600;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to Store</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Section -->
+        <div id="adminDashboardContainer" style="display:none;">
+            <iframe id="adminDashboardIframe" src="admin-dashboard.html" style="width:100%;height:100vh;border:none;"></iframe>
+        </div>
+    </div><!-- End adminContent -->
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/router.js"></script>
+    <script>
+        // ===== ADMIN LOGIN HANDLER =====
+        function toggleAdminPassword() {
+            const pwd = document.getElementById('adminPassword');
+            const icon = document.querySelector('#adminPassword ~ button i');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                pwd.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const form = document.getElementById('adminLoginForm');
+            const loginBtn = document.getElementById('adminLoginBtn');
+            const loginBtnText = document.getElementById('adminLoginBtnText');
+            const errorMsg = document.getElementById('loginError');
+
+            // Initialize Supabase
+            const connected = await DB.init();
+            if (!connected) {
+                errorMsg.textContent = 'Could not connect to database. Check your Supabase configuration.';
+                errorMsg.style.display = 'block';
+            }
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMsg.style.display = 'none';
+                
+                const username = document.getElementById('adminUsername').value.trim();
+                const password = document.getElementById('adminPassword').value;
+
+                if (!username || !password) {
+                    errorMsg.textContent = 'Please enter both username and password.';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtnText.textContent = 'Authenticating...';
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+
+                try {
+                    const session = await DB.login(username, password);
+                    
+                    // Success
+                    errorMsg.style.display = 'none';
+                    loginBtn.innerHTML = '<i class="fas fa-check-circle"></i> Success! Redirecting...';
+                    loginBtn.style.background = 'var(--success)';
+                    
+                    setTimeout(() => {
+                        Router.showAdminDashboard();
+                    }, 800);
+                } catch (err) {
+                    console.error('Admin login failed:', err);
+                    const message = err.message || 'Invalid username or password.';
+                    errorMsg.textContent = message;
+                    errorMsg.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
+                }
+            });
+
+            // Allow Enter key to submit
+            document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
+            });
+        });
+    </script>
+    <script src="js/store.js"></script>
+</body>
+</html>
