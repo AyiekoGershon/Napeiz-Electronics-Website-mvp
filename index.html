@@ -7,7 +7,7 @@
     <title>Napeiz Electronics Accessories | Premium Electronics Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link rel="icon" type="image/png" href="images/napeiz-logo.png">
 </head>
 <body>
     <!-- ===== STORE CONTENT ===== -->
@@ -23,7 +23,7 @@
             <div class="top-bar-info">
                 <span><i class="fas fa-truck"></i> Free Delivery in Migori</span>
                 <span><i class="fas fa-shield-alt"></i> 100% Genuine Products</span>
-                <span style="cursor:pointer;color:var(--primary);" onclick="Router.goToAdmin()"><i class="fas fa-lock"></i> Admin</span>
+                <a href="admin.html" style="color:var(--primary);"><i class="fas fa-lock"></i> Admin</a>
             </div>
         </div>
     </div>
@@ -31,13 +31,9 @@
     <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
-            <div class="logo">
-                <div class="logo-icon">⚡</div>
-                <div class="logo-text">
-                    <h1>Napeiz Electronics</h1>
-                    <span>Accessories & Appliances</span>
-                </div>
-            </div>
+            <a href="#hero" class="logo brand-logo" aria-label="Napeiz Electronics home">
+                <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+            </a>
 
             <nav class="nav-menu">
                 <a href="#hero" class="active">Home</a>
@@ -69,15 +65,21 @@
     <section class="hero" id="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Your Trusted <span>Electronics</span> Destination</h1>
-                <p>Discover premium electronic appliances from the world's leading brands. From smartphones and laptops to home theatre systems and gaming consoles — we've got you covered at unbeatable prices.</p>
-                <div style="display:flex;gap:15px;flex-wrap:wrap;">
+                <div class="hero-kicker"><i class="fas fa-bolt"></i> Fast deals on genuine electronics</div>
+                <h1>Shop Electronics Deals <span>Delivered in Migori</span></h1>
+                <p>Buy phones, TVs, laptops, audio gear, gaming consoles, and home appliances from trusted brands. Direct WhatsApp ordering, clear prices, and reliable local support.</p>
+                <div class="hero-actions">
                     <a href="#productsSection" class="btn btn-primary">
                         <i class="fas fa-shopping-bag"></i> Shop Now
                     </a>
                     <a href="https://wa.me/254708521714" target="_blank" class="btn btn-whatsapp">
                         <i class="fab fa-whatsapp"></i> Chat with Us
                     </a>
+                </div>
+                <div class="hero-deals">
+                    <span><i class="fas fa-percent"></i> Daily offers</span>
+                    <span><i class="fas fa-shield-alt"></i> Genuine brands</span>
+                    <span><i class="fas fa-truck-fast"></i> Migori delivery</span>
                 </div>
                 <div class="hero-stats" id="heroStats">
                     <div class="hero-stat">
@@ -95,10 +97,34 @@
                 </div>
             </div>
             <div class="hero-image">
-                <div class="hero-image-placeholder">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Powering Your Digital Life</h3>
-                    <p style="color:rgba(255,255,255,0.6);font-size:14px;margin-top:10px;">Premium Electronics • Best Prices • Trusted Quality</p>
+                <div class="hero-market-card">
+                    <div class="deal-header">
+                        <span>Top Picks</span>
+                        <strong>Up to 20% OFF</strong>
+                    </div>
+                    <div class="deal-products">
+                        <div class="deal-product main-deal">
+                            <i class="fas fa-tv"></i>
+                            <span>Smart TVs</span>
+                            <strong>From KSh 44,999</strong>
+                        </div>
+                        <div class="deal-product">
+                            <i class="fas fa-mobile-screen-button"></i>
+                            <span>Phones</span>
+                        </div>
+                        <div class="deal-product">
+                            <i class="fas fa-headphones"></i>
+                            <span>Audio</span>
+                        </div>
+                        <div class="deal-product">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Gaming</span>
+                        </div>
+                    </div>
+                    <div class="deal-footer">
+                        <i class="fab fa-whatsapp"></i>
+                        Order now via WhatsApp: +254 708 521 714
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,6 +154,54 @@
                     <h3>Easy Returns</h3>
                     <p>7-day return policy on all products. Customer satisfaction guaranteed.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MARKETPLACE BRAND STRIP ===== -->
+    <section class="marketplace-strip" aria-label="Popular electronics brands">
+        <div class="container">
+            <div class="marketplace-head">
+                <div>
+                    <span>Shop by official brand</span>
+                    <h2>Popular picks at Napeiz Electronics</h2>
+                </div>
+                <a href="#productsSection">View all products <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="logo-marquee">
+                <a href="#productsSection" class="brand-logo-card" aria-label="Samsung products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/samsung.svg" alt="Samsung logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="Apple products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/apple.svg" alt="Apple logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="Sony products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/sony.svg" alt="Sony logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="LG products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/lg.svg" alt="LG logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="JBL products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/jbl.svg" alt="JBL logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="Nintendo products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nintendo.svg" alt="Nintendo logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="Dyson products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/dyson.svg" alt="Dyson logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="Bose products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bose.svg" alt="Bose logo" loading="lazy">
+                </a>
+                <a href="#productsSection" class="brand-logo-card" aria-label="HP products">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hp.svg" alt="HP logo" loading="lazy">
+                </a>
+            </div>
+            <div class="marketplace-promos">
+                <span><i class="fas fa-fire"></i> Flash-style offers</span>
+                <span><i class="fas fa-truck"></i> Delivery around Migori</span>
+                <span><i class="fas fa-shield-halved"></i> Genuine electronics only</span>
+                <span><i class="fab fa-whatsapp"></i> Order directly on WhatsApp</span>
             </div>
         </div>
     </section>
@@ -218,13 +292,9 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <div class="logo" style="margin-bottom:20px;">
-                        <div class="logo-icon">⚡</div>
-                        <div class="logo-text">
-                            <h1 style="color:white;-webkit-text-fill-color:white;">Napeiz Electronics</h1>
-                            <span style="color:rgba(255,255,255,0.5);">Accessories & Appliances</span>
-                        </div>
-                    </div>
+                    <a href="#hero" class="logo brand-logo footer-brand-logo" aria-label="Napeiz Electronics home">
+                        <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+                    </a>
                     <p>Your trusted destination for premium electronic appliances and accessories. We offer the best brands at competitive prices with exceptional customer service.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -318,12 +388,8 @@
         <!-- Admin Login Section -->
         <div id="adminLoginContainer" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
             <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.1);animation:slideUp 0.5s ease;">
-                <div class="logo" style="justify-content:center;margin-bottom:15px;">
-                    <div class="logo-icon">⚡</div>
-                    <div class="logo-text">
-                        <h1>Napeiz Electronics</h1>
-                        <span>Administration Panel</span>
-                    </div>
+                <div class="logo brand-logo login-brand-logo" aria-label="Napeiz Electronics administration">
+                    <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
                 </div>
                 
                 <div style="text-align:center;margin-bottom:25px;">

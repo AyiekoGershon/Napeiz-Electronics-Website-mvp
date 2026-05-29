@@ -71,7 +71,7 @@ const Router = {
     },
 
     goToAdmin() {
-        this.navigate('/admin');
+        window.location.href = 'admin.html';
     }
 };
 
