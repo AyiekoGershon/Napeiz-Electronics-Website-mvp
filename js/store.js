@@ -185,7 +185,10 @@ async function loadProducts(filters = {}) {
                         </div>
                         
                         <div class="product-actions">
-                            <button class="btn-add-cart" onclick="buyViaWhatsApp(${product.id})" ${!product.in_stock ? "disabled" : ""}>
+                            <button class="btn-add-cart" onclick="addToCart(${product.id})" ${!product.in_stock ? "disabled" : ""}>
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button class="btn-add-cart whatsapp" onclick="buyViaWhatsApp(${product.id})" ${!product.in_stock ? "disabled" : ""}>
                                 <i class="fab fa-whatsapp"></i> Buy via WhatsApp
                             </button>
                             <button class="btn-view" onclick="showProductModal(${product.id})" title="View Details">
@@ -245,7 +248,10 @@ async function loadFeaturedProducts() {
                             <span class="current-price">${DB.formatPrice(product.price).replace("KSh ", "")}</span>
                         </div>
                         <div class="product-actions">
-                            <button class="btn-add-cart" onclick="buyViaWhatsApp(${product.id})">
+                            <button class="btn-add-cart" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button class="btn-add-cart whatsapp" onclick="buyViaWhatsApp(${product.id})">
                                 <i class="fab fa-whatsapp"></i> Buy Now
                             </button>
                             <button class="btn-view" onclick="showProductModal(${product.id})">
@@ -484,6 +490,9 @@ async function showProductModal(productId) {
                     }
                     
                     <div class="modal-actions" style="margin-top:20px;">
+                        <button class="btn btn-primary" onclick="addToCart(${product.id}); closeModal('productModal');">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                         <button class="btn btn-whatsapp" onclick="closeModal('productModal'); buyViaWhatsApp(${product.id});">
                             <i class="fab fa-whatsapp"></i> Buy via WhatsApp
                         </button>
@@ -577,10 +586,34 @@ function showCartModal() {
     document.body.style.overflow = "hidden";
 }
 
-function addToCart(product, quantity = 1) {
+async function addToCart(productOrId, quantity = 1) {
+    let product = null;
     const cart = getCartItems();
+
+    if (typeof productOrId === 'object' && productOrId !== null) {
+        product = productOrId;
+    } else {
+        const productId = Number(productOrId);
+        if (Number.isNaN(productId)) {
+            showToast('Unable to add to cart.', 'error');
+            return;
+        }
+        try {
+            product = await DB.getProductById(productId);
+        } catch (err) {
+            console.error('Failed to fetch product for cart:', err);
+            showToast('Unable to add to cart.', 'error');
+            return;
+        }
+    }
+
+    if (!product || !product.id) {
+        showToast('Product not found.', 'error');
+        return;
+    }
+
     const existing = cart.find((item) => item.id === product.id);
-    
+
     if (existing) {
         existing.quantity += quantity;
     } else {
@@ -593,9 +626,10 @@ function addToCart(product, quantity = 1) {
             quantity: quantity,
         });
     }
-    
+
     saveCartItems(cart);
     updateCartBadge();
+    showToast(`${product.name} added to cart.`, 'success');
 }
 
 function updateCartQty(id, qty) {
