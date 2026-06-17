@@ -392,16 +392,22 @@ async function saveProduct() {
             await DB.updateProduct(parseInt(editId), productData);
             await DB.logAudit("update", "product", parseInt(editId), { before: {}, after: productData });
             showToast("Product updated successfully!", "success");
+            resetProductForm();
+            showAdminPage("products");
         } else {
             // Create new
             const saved = await DB.createProduct(productData);
             await DB.logAudit("create", "product", saved.id, { data: productData });
-            showToast("Product created successfully!", "success");
+            
+            if (confirm("Product successfully uploaded!\n\nDo you want to upload a new product?")) {
+                resetProductForm();
+                // Stay on the Add Product page
+            } else {
+                resetProductForm();
+                showAdminPage("products");
+            }
         }
 
-        // Reset form
-        resetProductForm();
-        showAdminPage("products");
         loadAdminProducts();
         loadDashboard();
     } catch (err) {

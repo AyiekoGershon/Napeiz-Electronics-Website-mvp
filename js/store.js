@@ -1,4 +1,4 @@
-﻿// ===== STORE UI LOGIC - Supabase Powered =====
+// ===== STORE UI LOGIC - Supabase Powered =====
 document.addEventListener("DOMContentLoaded", async () => {
     // Initialize Supabase
     const connected = await DB.init();
@@ -73,25 +73,39 @@ async function loadBrands() {
         // Brands grid
         const grid = document.getElementById("brandsGrid");
         if (grid) {
-            const brandIcons = {
-                Samsung: "mobile-alt",
-                Apple: "apple-alt",
-                Sony: "playstation",
-                LG: "tv",
-                JBL: "music",
-                Nintendo: "gamepad",
-                Dyson: "wind",
-                Bose: "headphones",
-                HP: "laptop",
+            const brandDomains = {
+                "Samsung": "samsung.com",
+                "Apple": "apple.com",
+                "Sony": "sony.com",
+                "LG": "lg.com",
+                "JBL": "jbl.com",
+                "Nintendo": "nintendo.com",
+                "Dyson": "dyson.com",
+                "Bose": "bose.com",
+                "HP": "hp.com",
+                "Hisense": "hisense.com",
+                "TCL": "tcl.com",
+                "Tecno": "tecno-mobile.com",
+                "Infinix": "infinixmobility.com",
+                "Nokia": "nokia.com",
+                "Dell": "dell.com",
+                "Lenovo": "lenovo.com",
+                "Acer": "acer.com",
+                "Asus": "asus.com",
+                "Oppo": "oppo.com",
+                "Vivo": "vivo.com",
+                "Xiaomi": "mi.com",
             };
             grid.innerHTML = brands
-                .map(
-                    (b) => `
+                .map((b) => {
+                    const domain = brandDomains[b.name] || (b.name.toLowerCase().replace(/\s+/g, "") + ".com");
+                    return `
                     <div class="brand-item" onclick="filterByBrand(${b.id})">
-                        <i class="fas fa-${brandIcons[b.name] || "microchip"}"></i>
+                        <img src="https://logo.clearbit.com/${domain}?size=100" alt="${b.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                        <i class="fas fa-tag fallback-icon" style="display:none; font-size:30px; margin-bottom:10px; color:var(--text-light);"></i>
                         <span>${b.name}</span>
                     </div>`
-                )
+                })
                 .join("");
         }
     } catch (err) {
