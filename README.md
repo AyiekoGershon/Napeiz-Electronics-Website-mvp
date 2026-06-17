@@ -114,10 +114,6 @@ The app uses client-side routing to handle both store and admin portals from one
 4. Redirects to admin dashboard on success
 5. Session persists across page refreshes
 
-### Default Admin Account
-- **Username**: `admin`
-- **Email**: `admin@napeizelectronics.co.ke`
-- **Password**: `Napeiz@2024`
 
 ⚠️ **Important**: Change this password immediately in production!
 
