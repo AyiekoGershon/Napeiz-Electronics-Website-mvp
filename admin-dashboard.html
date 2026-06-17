@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -225,13 +225,18 @@
                         <i class="fas fa-images"></i> Media
                     </h3>
                     <div class="form-group">
-                        <label for="pMainImage">Main Image URL</label>
-                        <input type="text" id="pMainImage" placeholder="https://example.com/image.jpg">
-                        <small style="color:var(--text-light);">Paste a direct image URL or upload to images/ folder</small>
+                        <label for="pMainImage">Main Image</label>
+                        <input type="file" id="pMainImage" accept="image/*">
+                        <small style="color:var(--text-light);">Select an image to upload. Maximum size: 5MB.</small>
+                        <div id="pMainImagePreview" style="margin-top: 10px; max-width: 150px; border-radius: var(--radius-sm); overflow: hidden;"></div>
+                        <input type="hidden" id="pMainImageExisting">
                     </div>
                     <div class="form-group">
-                        <label for="pGallery">Gallery Images (one URL per line)</label>
-                        <textarea id="pGallery" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" style="min-height:60px;"></textarea>
+                        <label for="pGallery">Gallery Images</label>
+                        <input type="file" id="pGallery" accept="image/*" multiple>
+                        <small style="color:var(--text-light);">Select multiple images for the gallery. Maximum size: 5MB each.</small>
+                        <div id="pGalleryPreview" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+                        <input type="hidden" id="pGalleryExisting">
                     </div>
                     <div class="form-group">
                         <label for="pVideo">Video URL (YouTube/Vimeo)</label>

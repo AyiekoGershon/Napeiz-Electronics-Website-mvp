@@ -1,29 +1,31 @@
-﻿/* ===== CSS VARIABLES ===== */
+/* ===== CSS VARIABLES ===== */
 :root {
-    --primary: #f68b1e;
-    --primary-dark: #db7108;
-    --primary-light: #fff3e3;
-    --secondary: #12a05c;
-    --secondary-dark: #0d8048;
-    --dark: #202124;
-    --darker: #111827;
-    --text: #2f343b;
-    --text-light: #6b7280;
-    --gray: #f2f4f7;
-    --gray-dark: #d9dee7;
+    --primary: #f97316;
+    --primary-dark: #ea580c;
+    --primary-light: #fff7ed;
+    --secondary: #0ea5e9;
+    --secondary-dark: #0284c7;
+    --dark: #0f172a;
+    --darker: #020617;
+    --text: #334155;
+    --text-light: #64748b;
+    --gray: #f8fafc;
+    --gray-dark: #cbd5e1;
     --white: #ffffff;
-    --success: #27ae60;
-    --warning: #f39c12;
-    --danger: #e74c3c;
-    --shadow: 0 1px 8px rgba(17,24,39,0.08);
-    --shadow-lg: 0 12px 30px rgba(17,24,39,0.14);
-    --radius: 8px;
-    --radius-sm: 6px;
-    --transition: all 0.3s ease;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --max-width: 1400px;
 }
 
 /* ===== RESET & BASE ===== */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -35,11 +37,15 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: var(--text);
-    background: #f6f7fb;
+    background: #f1f5f9;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
 }
 
 a {
@@ -1379,19 +1385,28 @@ img {
 
 /* ===== ADMIN STYLES ===== */
 .admin-body {
-    background: var(--gray);
+    background: #f8fafc;
+    overflow: hidden; /* Prevent body scroll to avoid double scrollbars */
 }
 
 .admin-container {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: 100vh;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .admin-sidebar {
-    background: var(--dark);
+    width: 260px;
+    background: var(--darker);
     color: white;
     padding: 25px;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
 }
 
 .admin-logo {
@@ -1437,7 +1452,11 @@ img {
 }
 
 .admin-main {
+    flex: 1;
     padding: 30px;
+    height: 100vh;
+    overflow-y: auto;
+    background: #f8fafc;
 }
 
 .admin-header {

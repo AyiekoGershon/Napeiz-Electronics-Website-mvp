@@ -1,4 +1,4 @@
-﻿// ===== SUPABASE DATABASE SERVICE =====
+// ===== SUPABASE DATABASE SERVICE =====
 // Handles all database operations for the store
 // FIXED: init() uses correct Supabase syntax
 // FIXED: getProducts() handles category_slug filter differently
@@ -363,9 +363,16 @@ const DB = {
             throw new Error('Invalid credentials');
         }
 
-        // Compare password (plain text for now - use bcrypt in production)
-        if (data.password_hash !== password) {
+        const hashedInput = await this.hashPassword(password);
+        
+        // Compare password (support both plaintext and hashed during migration)
+        if (data.password_hash !== password && data.password_hash !== hashedInput) {
             throw new Error('Invalid credentials');
+        }
+
+        // Auto-migrate plaintext passwords to hashed versions
+        if (data.password_hash === password) {
+            await this.client.from('admin_users').update({ password_hash: hashedInput }).eq('id', data.id);
         }
 
         // Update last login
@@ -473,6 +480,38 @@ const DB = {
     },
 
     // ==================== UTILITY ====================
+
+    async hashPassword(password) {
+        const msgBuffer = new TextEncoder().encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    },
+
+    async uploadImage(file) {
+        if (!file) return null;
+        
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+        const filePath = `products/${fileName}`;
+
+        const { data, error } = await this.client
+            .storage
+            .from('product-images')
+            .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+        if (error) {
+            console.error("Storage upload error:", error);
+            throw new Error("Failed to upload image: " + error.message);
+        }
+
+        const { data: publicUrlData } = this.client
+            .storage
+            .from('product-images')
+            .getPublicUrl(filePath);
+
+        return publicUrlData.publicUrl;
+    },
 
     generateSlug(text) {
         return text

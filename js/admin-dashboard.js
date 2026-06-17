@@ -1,4 +1,4 @@
-﻿// ===== ADMIN DASHBOARD - Full Jumia-like Management =====
+// ===== ADMIN DASHBOARD - Full Jumia-like Management =====
 document.addEventListener("DOMContentLoaded", async () => {
     // Check authentication
     if (!DB.isLoggedIn()) {
@@ -319,62 +319,76 @@ async function saveProduct() {
     const btnText = document.getElementById("submitBtnText");
     const editId = submitBtn.dataset.editId;
 
-    // Gather form data
-    const features = document.getElementById("pFeatures").value
-        .split("\n")
-        .map((f) => f.trim())
-        .filter(Boolean);
-
-    const gallery = document.getElementById("pGallery").value
-        .split("\n")
-        .map((u) => u.trim())
-        .filter(Boolean);
-
-    const price = parseFloat(document.getElementById("pPrice").value) || 0;
-    const oldPrice = parseFloat(document.getElementById("pOldPrice").value) || null;
-    const costPrice = parseFloat(document.getElementById("pCostPrice").value) || null;
-
-    const productData = {
-        name: document.getElementById("pName").value.trim(),
-        slug: document.getElementById("pSlug").value.trim() || DB.generateSlug(document.getElementById("pName").value),
-        sku: document.getElementById("pSKU").value.trim() || null,
-        barcode: document.getElementById("pBarcode").value.trim() || null,
-        category_id: parseInt(document.getElementById("pCategory").value) || null,
-        brand_id: parseInt(document.getElementById("pBrand").value) || null,
-        price: price,
-        old_price: oldPrice && oldPrice > price ? oldPrice : null,
-        cost_price: costPrice,
-        discount_percent: oldPrice && oldPrice > price ? Math.round((1 - price / oldPrice) * 100) : 0,
-        short_description: document.getElementById("pShortDesc").value.trim(),
-        full_description: document.getElementById("pFullDesc").value.trim(),
-        features: features.length > 0 ? features : null,
-        specifications: getSpecs(),
-        main_image: document.getElementById("pMainImage").value.trim() || null,
-        gallery_images: gallery.length > 0 ? gallery : null,
-        video_url: document.getElementById("pVideo").value.trim() || null,
-        stock_quantity: parseInt(document.getElementById("pStockQty").value) || 0,
-        low_stock_threshold: parseInt(document.getElementById("pLowStock").value) || 5,
-        in_stock: document.getElementById("pInStock").value === "true",
-        is_featured: document.getElementById("pFeatured").checked,
-        is_new: document.getElementById("pNew").checked,
-        is_best_seller: document.getElementById("pBestSeller").checked,
-        is_active: true,
-        weight_kg: parseFloat(document.getElementById("pWeight").value) || null,
-        dimensions: document.getElementById("pDimensions").value.trim() || null,
-        warranty: document.getElementById("pWarranty").value.trim() || null,
-        delivery_info: document.getElementById("pDeliveryInfo").value.trim() || null,
-        return_policy: document.getElementById("pReturnPolicy").value.trim() || null,
-        meta_title: document.getElementById("pMetaTitle").value.trim() || null,
-        meta_description: document.getElementById("pMetaDesc").value.trim() || null,
-        meta_keywords: document.getElementById("pMetaKeywords").value.trim() || null,
-    };
-
     // Loading state
     submitBtn.disabled = true;
     btnText.textContent = editId ? "Updating..." : "Saving...";
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + btnText.textContent;
 
     try {
+        // 1. Upload Images
+        let mainImageUrl = document.getElementById("pMainImageExisting").value || null;
+        const mainImageFile = document.getElementById("pMainImage").files[0];
+        if (mainImageFile) {
+            mainImageUrl = await DB.uploadImage(mainImageFile);
+        }
+
+        let galleryUrls = [];
+        const existingGalleryStr = document.getElementById("pGalleryExisting").value;
+        if (existingGalleryStr) {
+            try { galleryUrls = JSON.parse(existingGalleryStr); } catch(e){}
+        }
+        
+        const galleryFiles = document.getElementById("pGallery").files;
+        for (let i = 0; i < galleryFiles.length; i++) {
+            const url = await DB.uploadImage(galleryFiles[i]);
+            if (url) galleryUrls.push(url);
+        }
+
+        // 2. Gather remaining form data
+        const features = document.getElementById("pFeatures").value
+            .split("\n")
+            .map((f) => f.trim())
+            .filter(Boolean);
+
+        const price = parseFloat(document.getElementById("pPrice").value) || 0;
+        const oldPrice = parseFloat(document.getElementById("pOldPrice").value) || null;
+        const costPrice = parseFloat(document.getElementById("pCostPrice").value) || null;
+
+        const productData = {
+            name: document.getElementById("pName").value.trim(),
+            slug: document.getElementById("pSlug").value.trim() || DB.generateSlug(document.getElementById("pName").value),
+            sku: document.getElementById("pSKU").value.trim() || null,
+            barcode: document.getElementById("pBarcode").value.trim() || null,
+            category_id: parseInt(document.getElementById("pCategory").value) || null,
+            brand_id: parseInt(document.getElementById("pBrand").value) || null,
+            price: price,
+            old_price: oldPrice && oldPrice > price ? oldPrice : null,
+            cost_price: costPrice,
+            discount_percent: oldPrice && oldPrice > price ? Math.round((1 - price / oldPrice) * 100) : 0,
+            short_description: document.getElementById("pShortDesc").value.trim(),
+            full_description: document.getElementById("pFullDesc").value.trim(),
+            features: features.length > 0 ? features : null,
+            specifications: getSpecs(),
+            main_image: mainImageUrl,
+            gallery_images: galleryUrls.length > 0 ? galleryUrls : null,
+            video_url: document.getElementById("pVideo").value.trim() || null,
+            stock_quantity: parseInt(document.getElementById("pStockQty").value) || 0,
+            low_stock_threshold: parseInt(document.getElementById("pLowStock").value) || 5,
+            in_stock: document.getElementById("pInStock").value === "true",
+            is_featured: document.getElementById("pFeatured").checked,
+            is_new: document.getElementById("pNew").checked,
+            is_best_seller: document.getElementById("pBestSeller").checked,
+            is_active: true,
+            weight_kg: parseFloat(document.getElementById("pWeight").value) || null,
+            dimensions: document.getElementById("pDimensions").value.trim() || null,
+            warranty: document.getElementById("pWarranty").value.trim() || null,
+            delivery_info: document.getElementById("pDeliveryInfo").value.trim() || null,
+            return_policy: document.getElementById("pReturnPolicy").value.trim() || null,
+            meta_title: document.getElementById("pMetaTitle").value.trim() || null,
+            meta_description: document.getElementById("pMetaDesc").value.trim() || null,
+            meta_keywords: document.getElementById("pMetaKeywords").value.trim() || null,
+        };
+
         if (editId) {
             // Update existing
             await DB.updateProduct(parseInt(editId), productData);
@@ -425,8 +439,24 @@ async function editProduct(id) {
         document.getElementById("pShortDesc").value = product.short_description || "";
         document.getElementById("pFullDesc").value = product.full_description || "";
         document.getElementById("pFeatures").value = product.features ? product.features.join("\n") : "";
-        document.getElementById("pMainImage").value = product.main_image || "";
-        document.getElementById("pGallery").value = product.gallery_images ? product.gallery_images.join("\n") : "";
+        
+        // Handle images for file inputs
+        document.getElementById("pMainImageExisting").value = product.main_image || "";
+        const mainImagePreview = document.getElementById("pMainImagePreview");
+        if (product.main_image) {
+            mainImagePreview.innerHTML = `<img src="${product.main_image}" style="width:100%;height:auto;border-radius:4px;">`;
+        } else {
+            mainImagePreview.innerHTML = "";
+        }
+
+        document.getElementById("pGalleryExisting").value = product.gallery_images ? JSON.stringify(product.gallery_images) : "";
+        const galleryPreview = document.getElementById("pGalleryPreview");
+        if (product.gallery_images && product.gallery_images.length > 0) {
+            galleryPreview.innerHTML = product.gallery_images.map(url => `<img src="${url}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;">`).join("");
+        } else {
+            galleryPreview.innerHTML = "";
+        }
+
         document.getElementById("pVideo").value = product.video_url || "";
         document.getElementById("pStockQty").value = product.stock_quantity || 0;
         document.getElementById("pLowStock").value = product.low_stock_threshold || 5;
@@ -508,6 +538,13 @@ function resetProductForm() {
     document.getElementById("pLowStock").value = "5";
     document.getElementById("pInStock").value = "true";
     document.getElementById("discountDisplay").textContent = "No Discount";
+
+    // Clear image previews
+    document.getElementById("pMainImagePreview").innerHTML = "";
+    document.getElementById("pMainImageExisting").value = "";
+    document.getElementById("pGalleryPreview").innerHTML = "";
+    document.getElementById("pGalleryExisting").value = "";
+
     setSpecs(null);
 }
 
