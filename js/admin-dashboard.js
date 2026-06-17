@@ -316,13 +316,11 @@ function initProductForm() {
 
 async function saveProduct() {
     const submitBtn = document.getElementById("submitBtn");
-    const btnText = document.getElementById("submitBtnText");
     const editId = submitBtn.dataset.editId;
 
     // Loading state
     submitBtn.disabled = true;
-    btnText.textContent = editId ? "Updating..." : "Saving...";
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + btnText.textContent;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span id="submitBtnText">' + (editId ? "Updating..." : "Saving...") + '</span>';
 
     try {
         // 1. Upload Images
@@ -410,8 +408,7 @@ async function saveProduct() {
         showToast("Error: " + err.message, "error");
     } finally {
         submitBtn.disabled = false;
-        btnText.textContent = editId ? "Update Product" : "Add Product";
-        submitBtn.innerHTML = '<i class="fas fa-save"></i> ' + btnText.textContent;
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> <span id="submitBtnText">' + (editId ? "Update Product" : "Add Product") + '</span>';
     }
 }
 
