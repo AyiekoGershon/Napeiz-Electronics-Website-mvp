@@ -103,7 +103,7 @@ async function loadBrands() {
                     const domain = brandDomains[b.name] || (b.name.toLowerCase().replace(/\s+/g, "") + ".com");
                     return `
                     <div class="brand-item" onclick="filterByBrand(${b.id})">
-                        <img src="https://logo.clearbit.com/${domain}?size=100" alt="${b.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(b.name)}&background=f68b1e&color=fff&size=100&bold=true&font-size=0.4" alt="${b.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
                         <i class="fas fa-tag fallback-icon" style="display:none; font-size:30px; margin-bottom:10px; color:var(--text-light);"></i>
                         <span>${b.name}</span>
                     </div>`
