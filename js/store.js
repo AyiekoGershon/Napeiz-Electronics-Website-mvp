@@ -19,7 +19,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         loadBrands(),
         loadProducts(),
         loadFeaturedProducts(),
-        updateHeroStats()
+        updateHeroStats(),
+        loadHeroDeals(),
+        initHeroSlideshow()
     ]);
 
     initNavigation();
@@ -200,13 +202,7 @@ async function loadProducts(filters = {}) {
                         
                         <div class="product-actions">
                             <button class="btn-add-cart" onclick="addToCart(${product.id})" ${!product.in_stock ? "disabled" : ""}>
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn-add-cart whatsapp" onclick="buyViaWhatsApp(${product.id})" ${!product.in_stock ? "disabled" : ""}>
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                            </button>
-                            <button class="btn-view" onclick="showProductModal(${product.id})" title="View Details">
-                                <i class="fas fa-eye"></i>
+                                ADD TO CART
                             </button>
                         </div>
                     </div>
@@ -263,13 +259,7 @@ async function loadFeaturedProducts() {
                         </div>
                         <div class="product-actions">
                             <button class="btn-add-cart" onclick="addToCart(${product.id})">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn-add-cart whatsapp" onclick="buyViaWhatsApp(${product.id})">
-                                <i class="fab fa-whatsapp"></i> Buy Now
-                            </button>
-                            <button class="btn-view" onclick="showProductModal(${product.id})">
-                                <i class="fas fa-eye"></i>
+                                ADD TO CART
                             </button>
                         </div>
                     </div>
@@ -295,6 +285,118 @@ async function updateHeroStats() {
         document.getElementById("statBrands").textContent = brands.length || "0";
     } catch (err) {
         console.error("Failed to load hero stats:", err);
+    }
+}
+
+async function loadHeroDeals() {
+    const grid = document.getElementById("heroDealGrid");
+    if (!grid) return;
+
+    try {
+        // Fetch up to 4 featured products from Supabase
+        let { products } = await DB.getProducts({ featured: true, limit: 4 });
+
+        // If DB has fewer than 4 featured products, fill with local mock featured products
+        if (!products || products.length < 4) {
+            console.log("Fewer than 4 featured products found in Supabase. Attempting local mock data load.");
+            try {
+                const response = await fetch("data/products.json");
+                const localData = await response.json();
+                const localFeatured = (localData.products || []).filter(p => p.featured);
+                
+                if (!products) products = [];
+                const missingCount = 4 - products.length;
+                const extraProducts = localFeatured
+                    .filter(lp => !products.some(p => p.id === lp.id))
+                    .slice(0, missingCount);
+                
+                const mappedExtra = extraProducts.map(lp => ({
+                    id: lp.id,
+                    name: lp.name,
+                    main_image: lp.image,
+                    price: lp.price,
+                    old_price: lp.oldPrice,
+                    brands: { name: lp.brand },
+                    categories: { name: lp.category }
+                }));
+
+                products = [...products, ...mappedExtra];
+            } catch (jsonErr) {
+                console.error("Failed to load local mock fallback:", jsonErr);
+            }
+        }
+
+        if (!products || products.length === 0) {
+            console.log("No featured products available to display in hero deals.");
+            return;
+        }
+
+        const itemsToRender = products.slice(0, 4);
+
+        let html = "";
+        itemsToRender.forEach((product, idx) => {
+            const isMain = idx === 0;
+            const hasDiscount = product.old_price && product.old_price > product.price;
+            const discountPercent = hasDiscount ? Math.round((1 - product.price / product.old_price) * 100) : 0;
+            const categoryName = product.categories?.name || "Electronics";
+            const formattedPrice = DB.formatPrice(product.price);
+            
+            const imgHtml = product.main_image 
+                ? `<img src="${product.main_image}" alt="${product.name}" class="deal-product-img" loading="lazy" onerror="this.src='images/napeiz-logo.png';">`
+                : `<div style="display:flex;align-items:center;justify-content:center;height:100%;"><i class="fas fa-${getProductIcon(categoryName)}"></i></div>`;
+
+            html += `
+                <div class="deal-product ${isMain ? 'main-deal' : ''}" onclick="showProductModal(${product.id})">
+                    ${discountPercent > 0 ? `<div class="deal-product-discount-badge">-${discountPercent}%</div>` : ""}
+                    <div class="deal-product-img-wrapper">
+                        ${imgHtml}
+                    </div>
+                    <span>${product.name}</span>
+                    <strong>${isMain ? 'Now ' : ''}${formattedPrice.replace(".00", "")}</strong>
+                </div>`;
+        });
+
+        grid.innerHTML = html;
+    } catch (err) {
+        console.error("Failed to load dynamic hero deals:", err);
+    }
+}
+
+async function initHeroSlideshow() {
+    const container = document.getElementById("heroBgSlideshow");
+    if (!container) return;
+
+    try {
+        // Use a set of premium high-quality images for the hero background slideshow
+        const slideImages = [
+            "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=1920&q=80", // TV
+            "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1920&q=80", // Phone
+            "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1920&q=80", // Headphones
+            "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1920&q=80", // Laptop
+            "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=1920&q=80"  // Console
+        ];
+
+        let html = "";
+        slideImages.forEach((img, idx) => {
+            html += `
+                <div class="hero-bg-slide ${idx === 0 ? 'active' : ''}">
+                    <div class="hero-bg-slide-img" style="background-image: url('${img}');"></div>
+                </div>`;
+        });
+        container.innerHTML = html;
+
+        // Start cycling slides
+        const slides = container.querySelectorAll(".hero-bg-slide");
+        if (slides.length <= 1) return;
+
+        let currentIdx = 0;
+        setInterval(() => {
+            slides[currentIdx].classList.remove("active");
+            currentIdx = (currentIdx + 1) % slides.length;
+            slides[currentIdx].classList.add("active");
+        }, 5000); // Shift slide every 5 seconds
+    } catch (err) {
+        console.error("Failed to initialize hero background slideshow:", err);
     }
 }
 

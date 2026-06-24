@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,26 +30,29 @@
 
     <!-- ===== HEADER ===== -->
     <header class="header">
-        <div class="container">
+        <div class="container header-main">
             <a href="#hero" class="logo brand-logo" aria-label="Napeiz Electronics home">
                 <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
             </a>
 
-            <nav class="nav-menu">
-                <a href="#hero" class="active">Home</a>
-                <a href="#productsSection">Products</a>
-                <a href="#featuredSection">Featured</a>
-                <a href="#brandsSection">Brands</a>
-                <a href="#contactSection">Contact</a>
-            </nav>
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search products, brands and categories" aria-label="Search products">
+                <button class="btn-search">SEARCH</button>
+            </div>
 
             <div class="header-actions">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products">
-                    <button><i class="fas fa-search"></i></button>
+                <div class="header-action-item">
+                    <i class="far fa-user"></i>
+                    <span class="action-text">Account</span>
+                </div>
+                <div class="header-action-item">
+                    <i class="far fa-question-circle"></i>
+                    <span class="action-text">Help</span>
                 </div>
                 <button class="cart-btn" id="cartBtn" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-cart"></i>
+                    <span class="action-text">Cart</span>
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
                 <div class="hamburger" aria-label="Toggle menu">
@@ -59,10 +62,23 @@
                 </div>
             </div>
         </div>
+        
+        <div class="header-nav-bottom">
+            <div class="container">
+                <nav class="nav-menu">
+                    <a href="#hero" class="active">Home</a>
+                    <a href="#productsSection">Products</a>
+                    <a href="#featuredSection">Featured</a>
+                    <a href="#brandsSection">Brands</a>
+                    <a href="#contactSection">Contact</a>
+                </nav>
+            </div>
+        </div>
     </header>
 
     <!-- ===== HERO SECTION ===== -->
     <section class="hero" id="hero">
+        <div class="hero-bg-slideshow" id="heroBgSlideshow"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-kicker"><i class="fas fa-bolt"></i> Fast deals on genuine electronics</div>
@@ -102,7 +118,7 @@
                         <span>Top Picks</span>
                         <strong>Up to 20% OFF</strong>
                     </div>
-                    <div class="deal-products">
+                    <div class="deal-products" id="heroDealGrid">
                         <div class="deal-product main-deal">
                             <i class="fas fa-tv"></i>
                             <span>Smart TVs</span>
@@ -135,24 +151,32 @@
         <div class="container">
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
-                    <h3>Free Delivery</h3>
-                    <p>Free delivery within Migori for all orders. Same-day delivery available.</p>
+                    <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+                    <div class="feature-text">
+                        <h3>Free Delivery</h3>
+                        <p>Same-day Migori delivery available.</p>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>100% Genuine</h3>
-                    <p>All products are 100% authentic with manufacturer warranty included.</p>
+                    <div class="feature-icon"><i class="fas fa-shield-check"></i></div>
+                    <div class="feature-text">
+                        <h3>100% Genuine</h3>
+                        <p>Authentic with full warranty.</p>
+                    </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                    <h3>24/7 Support</h3>
-                    <p>Reach us anytime via WhatsApp or phone for quick assistance.</p>
+                    <div class="feature-text">
+                        <h3>24/7 Support</h3>
+                        <p>Always here to help you.</p>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-undo-alt"></i></div>
-                    <h3>Easy Returns</h3>
-                    <p>7-day return policy on all products. Customer satisfaction guaranteed.</p>
+                    <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
+                    <div class="feature-text">
+                        <h3>Easy Returns</h3>
+                        <p>7-day hassle-free returns.</p>
+                    </div>
                 </div>
             </div>
         </div>
