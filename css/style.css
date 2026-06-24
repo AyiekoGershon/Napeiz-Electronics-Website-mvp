@@ -1925,14 +1925,28 @@ img {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .hero {
-        background: var(--white);
+        background: var(--dark);
     }
     .hero .container {
         grid-template-columns: 1fr;
         text-align: left;
     }
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    }
+    .hero-content h1, 
+    .hero-content p, 
+    .hero-kicker,
+    .hero-deals span,
+    .hero-stat h3,
+    .hero-stat p {
+        color: var(--white) !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
     .hero-content p {
         margin-right: auto;
+        opacity: 0.9;
     }
     .hero-stats {
         justify-content: flex-start;
@@ -1940,12 +1954,12 @@ img {
     .hero-image {
         display: none;
     }
-    /* Ensure text is readable across the full width on mobile by making the overlay uniformly light */
+    /* Dark gradient overlay to let the background pop while keeping white text readable */
     .hero-bg-slideshow::after {
         background: linear-gradient(180deg, 
-            rgba(255, 243, 227, 0.95) 0%, 
-            rgba(255, 255, 255, 0.85) 60%,
-            rgba(255, 255, 255, 0.6) 100%
+            rgba(0, 0, 0, 0.6) 0%, 
+            rgba(0, 0, 0, 0.4) 60%,
+            rgba(0, 0, 0, 0.1) 100%
         ) !important;
     }
 }
