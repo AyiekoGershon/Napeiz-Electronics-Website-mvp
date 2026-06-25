@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Napeiz Electronics Accessories - Your Trusted Electronics Destination. Shop for genuine electronic appliances from top brands.">
     <title>Napeiz Electronics Accessories | Premium Electronics Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="images/napeiz-logo.png">
+    <!-- Preconnect to CDN origins -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="images/napeiz-logo_opt.webp" as="image" type="image/webp">
+    <!-- Defer Font Awesome (non-critical CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all';this.onload=null">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="icon" type="image/webp" href="images/napeiz-logo_opt.webp">
 </head>
 <body>
     <!-- ===== STORE CONTENT ===== -->
@@ -32,7 +41,7 @@
     <header class="header">
         <div class="container header-main">
             <a href="#hero" class="logo brand-logo" aria-label="Napeiz Electronics home">
-                <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+                <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
             </a>
 
             <div class="search-box">
@@ -42,6 +51,10 @@
             </div>
 
             <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
                 <div class="header-action-item">
                     <i class="far fa-user"></i>
                     <span class="action-text">Account</span>
@@ -317,7 +330,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="#hero" class="logo brand-logo footer-brand-logo" aria-label="Napeiz Electronics home">
-                        <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+                        <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
                     </a>
                     <p>Your trusted destination for premium electronic appliances and accessories. We offer the best brands at competitive prices with exceptional customer service.</p>
                     <div class="social-links">
@@ -413,7 +426,7 @@
         <div id="adminLoginContainer" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
             <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.1);animation:slideUp 0.5s ease;">
                 <div class="logo brand-logo login-brand-logo" aria-label="Napeiz Electronics administration">
-                    <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+                    <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
                 </div>
                 
                 <div style="text-align:center;margin-bottom:25px;">
@@ -460,11 +473,33 @@
     <div class="toast" id="toast"></div>
 
     <!-- ===== SCRIPTS ===== -->
+    <!-- Theme toggle (runs synchronously to prevent flash) -->
+    <script>
+        (function(){
+            var t=localStorage.getItem('napeiz-theme');
+            if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+        })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/database.js"></script>
     <script src="js/router.js"></script>
     <script>
+        // ===== THEME TOGGLE HANDLER =====
+        document.addEventListener('DOMContentLoaded', function(){
+            var btn=document.getElementById('themeToggle');
+            if(!btn) return;
+            btn.addEventListener('click', function(){
+                var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+                if(isDark){
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('napeiz-theme','light');
+                }else{
+                    document.documentElement.setAttribute('data-theme','dark');
+                    localStorage.setItem('napeiz-theme','dark');
+                }
+            });
+        });
         // ===== ADMIN LOGIN HANDLER =====
         function toggleAdminPassword() {
             const pwd = document.getElementById('adminPassword');
@@ -535,6 +570,25 @@
                 if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
             });
         });
+    </script>
+    <!-- Scroll-reveal animations -->
+    <script>
+        (function(){
+            var observer=new IntersectionObserver(function(entries){
+                entries.forEach(function(entry){
+                    if(entry.isIntersecting){
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+            document.addEventListener('DOMContentLoaded',function(){
+                document.querySelectorAll('.section,.features,.marketplace-strip,.brands-section,.newsletter,.footer,.filter-section').forEach(function(el){
+                    el.classList.add('reveal');
+                    observer.observe(el);
+                });
+            });
+        })();
     </script>
     <script src="js/store.js?v=2"></script>
 </body>

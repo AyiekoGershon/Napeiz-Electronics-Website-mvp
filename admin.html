@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Napeiz Electronics</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="images/napeiz-logo.png">
+    <!-- Preconnect to CDN origins -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Defer Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all';this.onload=null">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="icon" type="image/webp" href="images/napeiz-logo_opt.webp">
+    <!-- Theme flash prevention -->
+    <script>(function(){var t=localStorage.getItem('napeiz-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();</script>
     <style>
         body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
         .login-card {
@@ -61,7 +70,7 @@
 <body style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
     <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);">
         <div class="logo brand-logo login-brand-logo" aria-label="Napeiz Electronics administration">
-            <img src="images/napeiz-logo.png" alt="Napeiz Electronics" class="brand-logo-img">
+            <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
         </div>
         
         <div style="text-align:center;margin-bottom:25px;">

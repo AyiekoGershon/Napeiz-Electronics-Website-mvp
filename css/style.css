@@ -2129,3 +2129,503 @@ img {
         flex-direction: column;
     }
 }
+
+/* ================================================================
+   DARK THEME — CSS Custom Properties + Surface Overrides
+   ================================================================ */
+[data-theme="dark"] {
+    /* Core colors */
+    --primary: #f68b1e;
+    --primary-dark: #ff9d3a;
+    --primary-light: rgba(246,139,30,0.12);
+    --secondary: #49494c;
+    --secondary-dark: #5c5c5f;
+    --dark: #e0e0e0;
+    --darker: #0a0a0e;
+    --text: #d4d4d8;
+    --text-light: #8e8e95;
+    --gray: #1a1a20;
+    --gray-dark: #2a2a32;
+    --white: #111117;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+    --radius: 6px;
+    --radius-sm: 4px;
+    --transition: all 0.2s ease-in-out;
+    --max-width: 1400px;
+}
+
+[data-theme="dark"] body {
+    background: #0c0c12;
+    color: var(--text);
+}
+
+/* Top bar */
+[data-theme="dark"] .top-bar {
+    background: #14141c;
+    border-bottom-color: #252530;
+    color: #9ca3af;
+}
+
+/* Header */
+[data-theme="dark"] .header {
+    background: #111117;
+    border-bottom-color: #1f1f2a;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .header-nav-bottom {
+    background: #111117;
+    border-top-color: #1f1f2a;
+}
+
+/* Search */
+[data-theme="dark"] .search-box {
+    background: #1a1a24;
+    border-color: #2a2a35;
+}
+
+[data-theme="dark"] .search-box input {
+    color: var(--text);
+}
+
+[data-theme="dark"] .search-box input::placeholder {
+    color: #6b7280;
+}
+
+/* Hero section */
+[data-theme="dark"] .hero {
+    background: #080810;
+}
+
+[data-theme="dark"] .hero-bg-slideshow::after {
+    background: linear-gradient(105deg,
+        rgba(18, 18, 28, 0.92) 0%,
+        rgba(22, 22, 32, 0.62) 45%,
+        rgba(0, 0, 0, 0.35) 45.1%,
+        rgba(8, 8, 16, 0.82) 100%
+    );
+}
+
+[data-theme="dark"] .hero-kicker {
+    background: #1a1a24;
+    border-color: #3a3020;
+    color: #ffb74d;
+}
+
+[data-theme="dark"] .hero-content p {
+    color: #a1a1aa;
+}
+
+[data-theme="dark"] .hero-deals span {
+    background: rgba(26,26,36,0.88);
+    border-color: #2a2a35;
+    color: #c4c4cc;
+}
+
+[data-theme="dark"] .hero-stat {
+    background: #1a1a24;
+    border-color: #2a2a35;
+}
+
+/* Features section */
+[data-theme="dark"] .features-grid {
+    background: #111117;
+    border-color: rgba(255,255,255,0.06);
+}
+
+[data-theme="dark"] .feature-card:not(:last-child)::after {
+    background: #2a2a35;
+}
+
+/* Marketplace strip */
+[data-theme="dark"] .marketplace-strip {
+    background: #0e0e14;
+}
+
+[data-theme="dark"] .marketplace-strip .container {
+    background: #14141c;
+    border-color: #252530;
+}
+
+[data-theme="dark"] .brand-logo-card {
+    background: #1a1a24;
+    border-color: #2a2a35;
+}
+
+[data-theme="dark"] .brand-logo-card:hover {
+    background: #252530;
+    border-color: #f68b1e40;
+}
+
+[data-theme="dark"] .marketplace-promos span {
+    background: #1a1a24;
+    border-color: #3a3020;
+    color: #e0a030;
+}
+
+/* Deal cards */
+[data-theme="dark"] .deal-product {
+    background: #1a1a24;
+    border-color: #2a2a35;
+}
+
+[data-theme="dark"] .main-deal {
+    background: #1e1e2a;
+}
+
+[data-theme="dark"] .deal-footer {
+    background: #0d3320;
+    color: #4ade80;
+    border-color: #1a5030;
+}
+
+/* Sections */
+[data-theme="dark"] .section,
+[data-theme="dark"] .brands-section {
+    background: #0c0c12;
+    color: var(--text);
+}
+
+[data-theme="dark"] .brands-section {
+    background: #111117;
+}
+
+[data-theme="dark"] .section-header {
+    border-bottom-color: #252530;
+}
+
+/* Filter */
+[data-theme="dark"] .filter-section {
+    background: #111117;
+    border-bottom-color: #252530;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .filter-btn {
+    background: #1a1a24;
+    border-color: #2a2a35;
+    color: var(--text);
+}
+
+[data-theme="dark"] .search-filter {
+    background: #1a1a24;
+    border-color: #2a2a35;
+    color: var(--text);
+}
+
+/* Product cards */
+[data-theme="dark"] .product-card {
+    background: #14141c;
+    border-color: #252530;
+}
+
+[data-theme="dark"] .product-card:hover {
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    border-color: #f68b1e40;
+}
+
+[data-theme="dark"] .product-image {
+    background: #1a1a24;
+}
+
+[data-theme="dark"] .product-image-placeholder {
+    background: #1a1a24;
+    color: #6b7280;
+}
+
+/* Newsletter */
+[data-theme="dark"] .newsletter {
+    background: #0e0e14;
+}
+
+/* Footer */
+[data-theme="dark"] .footer {
+    background: #080810;
+}
+
+[data-theme="dark"] .footer-bottom {
+    border-top-color: rgba(255,255,255,0.06);
+}
+
+/* Modals */
+[data-theme="dark"] .modal {
+    background: rgba(0,0,0,0.75);
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-header {
+    background: #14141c;
+    border-color: #252530;
+}
+
+[data-theme="dark"] .modal-product-image {
+    background: #1a1a24;
+}
+
+/* Forms */
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: #1a1a24;
+    border-color: #2a2a35;
+    color: var(--text);
+}
+
+/* Brand items */
+[data-theme="dark"] .brand-item {
+    background: #1a1a24;
+    border-color: #2a2a35;
+}
+
+/* Toast */
+[data-theme="dark"] .toast {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+/* Admin styles */
+[data-theme="dark"] .admin-body,
+[data-theme="dark"] .admin-main {
+    background: #0c0c12;
+}
+
+[data-theme="dark"] .admin-sidebar {
+    background: #080810;
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .admin-table {
+    background: #14141c;
+    border-color: #252530;
+}
+
+[data-theme="dark"] .admin-table th {
+    background: #1a1a24;
+}
+
+[data-theme="dark"] .admin-table td {
+    border-bottom-color: #1f1f2a;
+}
+
+[data-theme="dark"] .admin-table tr:hover td {
+    background: rgba(246,139,30,0.06);
+}
+
+/* Login */
+[data-theme="dark"] .login-card {
+    background: #14141c;
+}
+
+[data-theme="dark"] .login-page {
+    background: linear-gradient(135deg, #080810, #0a0a12);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray);
+    border: 1px solid var(--gray-dark);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text);
+    font-size: 16px;
+    position: relative;
+}
+
+.theme-toggle:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: rotate(15deg);
+}
+
+.theme-toggle .fa-sun { display: none; }
+[data-theme="dark"] .theme-toggle .fa-sun { display: inline-block; }
+[data-theme="dark"] .theme-toggle .fa-moon { display: none; }
+
+/* Dark mode scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #0c0c12;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #2a2a35;
+    border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a48;
+}
+
+/* ================================================================
+   UI POLISH — Micro-interactions, Scroll Reveal, Hover Enhancements
+   ================================================================ */
+
+/* Scroll-reveal animation for sections */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Enhanced card hover glow */
+.product-card {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(246, 139, 30, 0.12);
+    border-color: var(--primary);
+}
+
+/* Button micro-interactions */
+.btn {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.btn:hover::after {
+    opacity: 1;
+}
+.btn-primary:hover {
+    box-shadow: 0 8px 28px rgba(246, 139, 30, 0.35);
+}
+.btn-whatsapp:hover {
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+}
+
+/* Feature card hover enhancement */
+.feature-card {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.feature-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Feature icon pulse on hover */
+.feature-card:hover .feature-icon {
+    animation: iconPulse 0.6s ease;
+}
+@keyframes iconPulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* Brand item hover lift */
+.brand-item {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+}
+.brand-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+/* Deal product hover */
+.deal-product {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+.deal-product:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(246, 139, 30, 0.08);
+}
+
+/* Cart count pulse */
+@keyframes cartPulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+.cart-count.pulse {
+    animation: cartPulse 0.4s ease;
+}
+
+/* Smooth nav link underline animation */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+    width: 100%;
+}
+
+/* Loading skeleton improvement */
+.loading {
+    text-align: center;
+    padding: 50px;
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Toast entrance animation refinement */
+.toast {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease;
+}
+
+/* Stagger animation for product grid */
+@media (min-width: 769px) {
+    .product-card {
+        animation: cardFadeIn 0.5s ease both;
+    }
+    .product-card:nth-child(1) { animation-delay: 0s; }
+    .product-card:nth-child(2) { animation-delay: 0.05s; }
+    .product-card:nth-child(3) { animation-delay: 0.1s; }
+    .product-card:nth-child(4) { animation-delay: 0.15s; }
+    .product-card:nth-child(5) { animation-delay: 0.2s; }
+    .product-card:nth-child(6) { animation-delay: 0.25s; }
+    .product-card:nth-child(7) { animation-delay: 0.3s; }
+    .product-card:nth-child(8) { animation-delay: 0.35s; }
+}
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
