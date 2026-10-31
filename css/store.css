@@ -396,7 +396,21 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.1; letter-spac
 .select select:focus { border-color: var(--accent); }
 .result-count { color: var(--muted); font-size: 15px; }
 .grid-footer { display: flex; justify-content: center; margin-top: 40px; }
-#gridSentinel { height: 1px; }
+.pagination { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.pagination:empty { display: none; }
+.page-nums { display: flex; gap: 6px; align-items: center; }
+.page-num, .page-step {
+    height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; font-weight: 600; font-size: 15px;
+    background: var(--surface); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-variant-numeric: tabular-nums;
+    transition: background-color .2s, color .2s, border-color .2s, transform .2s var(--ease);
+}
+.page-num { padding: 0; }
+.page-num:hover, .page-step:hover:not(:disabled) { border-color: var(--text); transform: translateY(-2px); }
+.page-num.active { background: var(--text); color: var(--bg); border-color: var(--text); transform: none; }
+.page-step:disabled { opacity: .4; cursor: not-allowed; }
+.page-gap { min-width: 20px; text-align: center; color: var(--muted); }
+.page-of { display: none; font-size: 14px; color: var(--muted); }
 .empty { grid-column: 1 / -1; text-align: center; padding: 80px 20px; }
 .empty i { font-size: 44px; color: var(--muted); opacity: .5; margin-bottom: 18px; }
 .empty h3 { font-size: 22px; margin-bottom: 6px; }
@@ -628,6 +642,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.1; letter-spac
     .carousel { grid-auto-columns: minmax(220px, 62%); }
     .deals-meta .carousel-nav { display: none; }
     .quick-add { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+    .pagination { justify-content: space-between; row-gap: 14px; }
+    .page-nums { order: -1; flex-basis: 100%; justify-content: center; gap: 4px; }
+    .page-num { height: 38px; min-width: 38px; font-size: 14px; }
+    .page-gap { min-width: 12px; }
+    .page-of { display: block; }
 }
 
 @media (max-width: 560px) {

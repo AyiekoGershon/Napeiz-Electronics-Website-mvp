@@ -12,7 +12,7 @@ const state = {
     brands: new Map(),
     filter: { category: "all", brand: "all", sort: "newest", q: "" },
     results: [],
-    shown: 0,
+    page: 1,
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -96,11 +96,6 @@ function applyFilters({ scroll = false } = {}) {
     list.sort((a, b) => Number(b.in_stock) - Number(a.in_stock));
 
     state.results = list;
-    state.shown = 0;
-    $("#productGrid").innerHTML = "";
-
-    const total = state.catalog.length;
-    $("#resultCount").textContent = list.length === total ? `${total} products` : `${list.length} of ${total} products`;
 
     $$(".chip").forEach((c) => c.classList.toggle("active", c.dataset.category === category));
     $("#brandFilter").value = brand;
@@ -114,31 +109,58 @@ function applyFilters({ scroll = false } = {}) {
                 <p>Try another search or clear the filters.</p>
                 <button class="btn btn-outline" data-reset>Clear filters</button>
             </div>`;
-        $("#loadMore").hidden = true;
+        $("#pagination").innerHTML = "";
+        $("#resultCount").textContent = `0 of ${state.catalog.length} products`;
     } else {
-        renderNextPage();
+        renderPage(1);
     }
 
-    if (scroll) $("#shop").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+    if (scroll) scrollToShop();
 }
 
-// Infinite scroll: load the next page when the sentinel nears the viewport
-const sentinelObserver = new IntersectionObserver(
-    (entries) => {
-        if (entries[0].isIntersecting && state.shown && state.shown < state.results.length) renderNextPage();
-    },
-    { rootMargin: "600px" }
-);
+function scrollToShop() {
+    $("#shop").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+}
 
-function renderNextPage() {
-    const next = state.results.slice(state.shown, state.shown + PAGE_SIZE);
-    $("#productGrid").insertAdjacentHTML("beforeend", next.map((p, i) => cardHTML(p, i)).join(""));
-    state.shown += next.length;
-    $("#loadMore").hidden = state.shown >= state.results.length;
-    // Re-observe so a sentinel that is still in range triggers another page
-    const s = $("#gridSentinel");
-    sentinelObserver.unobserve(s);
-    sentinelObserver.observe(s);
+// ===== PAGINATION =====
+function renderPage(page) {
+    const pages = Math.ceil(state.results.length / PAGE_SIZE);
+    state.page = Math.min(Math.max(1, page), pages);
+    const start = (state.page - 1) * PAGE_SIZE;
+    const slice = state.results.slice(start, start + PAGE_SIZE);
+
+    $("#productGrid").innerHTML = slice.map((p, i) => cardHTML(p, i)).join("");
+    $("#resultCount").textContent =
+        pages > 1
+            ? `Showing ${start + 1}–${start + slice.length} of ${state.results.length} products`
+            : `${state.results.length} products`;
+    $("#pagination").innerHTML = paginationHTML(state.page, pages);
+}
+
+// Page list with ellipses, e.g. 1 … 4 5 6 … 12
+function pageList(current, pages) {
+    if (pages <= 7) return Array.from({ length: pages }, (_, i) => i + 1);
+    const set = new Set([1, pages, current - 1, current, current + 1]);
+    if (current <= 3) [2, 3, 4].forEach((n) => set.add(n));
+    if (current >= pages - 2) [pages - 1, pages - 2, pages - 3].forEach((n) => set.add(n));
+    const nums = [...set].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
+    return nums.flatMap((n, i) => (i && n - nums[i - 1] > 1 ? ["…", n] : [n]));
+}
+
+function paginationHTML(current, pages) {
+    if (pages <= 1) return "";
+    const nums = pageList(current, pages)
+        .map((n) =>
+            n === "…"
+                ? '<span class="page-gap" aria-hidden="true">…</span>'
+                : `<button class="page-num ${n === current ? "active" : ""}" data-page="${n}" ${n === current ? 'aria-current="page"' : ""} aria-label="Page ${n}">${n}</button>`
+        )
+        .join("");
+    return `
+        <button class="page-step" data-page="${current - 1}" ${current === 1 ? "disabled" : ""} aria-label="Previous page"><i class="fas fa-arrow-left"></i><span>Prev</span></button>
+        <div class="page-nums">${nums}</div>
+        <span class="page-of">Page ${current} of ${pages}</span>
+        <button class="page-step" data-page="${current + 1}" ${current === pages ? "disabled" : ""} aria-label="Next page"><span>Next</span><i class="fas fa-arrow-right"></i></button>`;
 }
 
 function renderSkeletonGrid() {
@@ -639,8 +661,12 @@ function initEvents() {
         applyFilters();
     });
 
-    $("#loadMore").addEventListener("click", renderNextPage);
-    sentinelObserver.observe($("#gridSentinel"));
+    $("#pagination").addEventListener("click", (e) => {
+        const b = e.target.closest("[data-page]");
+        if (!b || b.disabled || Number(b.dataset.page) === state.page) return;
+        renderPage(Number(b.dataset.page));
+        scrollToShop();
+    });
 
     $("#newsletterForm").addEventListener("submit", async (e) => {
         e.preventDefault();
