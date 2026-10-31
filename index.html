@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://artgbfskbqzvcmszxnvu.supabase.co">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/store.css?v=3">
+    <link rel="stylesheet" href="css/store.css?v=4">
     <link rel="icon" type="image/webp" href="images/napeiz-logo_opt.webp">
 </head>
 <body>
@@ -72,6 +72,9 @@
                 <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
                     <i class="fas fa-moon"></i><i class="fas fa-sun"></i>
                 </button>
+                <a href="admin.html" class="icon-btn" aria-label="Staff login" title="Staff login">
+                    <i class="fas fa-user-lock"></i>
+                </a>
                 <button class="icon-btn cart-btn" id="cartBtn" aria-label="Open cart">
                     <i class="fas fa-bag-shopping"></i>
                     <span class="cart-count" id="cartCount">0</span>
@@ -387,8 +390,8 @@
     <div class="toasts" id="toasts" aria-live="polite"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/database.js"></script>
-    <script src="js/store.js?v=3"></script>
+    <script src="js/supabase-config.js?v=4"></script>
+    <script src="js/database.js?v=4"></script>
+    <script src="js/store.js?v=4"></script>
 </body>
 </html>
