@@ -3,593 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Napeiz Electronics Accessories - Your Trusted Electronics Destination. Shop for genuine electronic appliances from top brands.">
-    <title>Napeiz Electronics Accessories | Premium Electronics Store</title>
-    <!-- Preconnect to CDN origins -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <meta name="description" content="Napeiz Electronics — genuine phones, TVs, audio, laptops and home appliances from trusted brands. Order on WhatsApp, delivered in Migori.">
+    <meta name="theme-color" content="#06101f">
+    <title>Napeiz Electronics | Shop Deals, Delivered</title>
+    <script>
+        // Old /admin route → standalone admin page
+        if (/^\/admin\/?$/.test(location.pathname)) location.replace('/admin.html');
+        // Apply saved theme before paint (no flash)
+        (function () {
+            try {
+                var t = localStorage.getItem('napeiz-theme');
+                if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+            document.documentElement.classList.add('js');
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preload critical assets -->
-    <link rel="preload" href="images/napeiz-logo_opt.webp" as="image" type="image/webp">
-    <!-- Defer Font Awesome (non-critical CSS) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all';this.onload=null">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://artgbfskbqzvcmszxnvu.supabase.co">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/store.css?v=3">
     <link rel="icon" type="image/webp" href="images/napeiz-logo_opt.webp">
 </head>
 <body>
-    <!-- ===== STORE CONTENT ===== -->
-    <div id="storeContent" style="display:block;">
-    <!-- ===== TOP BAR ===== -->
-    <div class="top-bar">
-        <div class="container">
-            <div class="top-bar-info">
-                <span><i class="fas fa-phone"></i> +254 708 521 714</span>
-                <span><i class="fas fa-envelope"></i> info@napeizelectronics.co.ke</span>
-                <span><i class="fas fa-map-marker-alt"></i> Mabera Town, Migori</span>
-            </div>
-            <div class="top-bar-info">
-                <span><i class="fas fa-truck"></i> Free Delivery in Migori</span>
-                <span><i class="fas fa-shield-alt"></i> 100% Genuine Products</span>
-                <a href="admin.html" style="color:var(--primary);"><i class="fas fa-lock"></i> Admin</a>
-            </div>
+    <a class="skip-link" href="#shop">Skip to products</a>
+
+    <!-- ===== ANNOUNCEMENT ===== -->
+    <div class="announce" aria-label="Store highlights">
+        <div class="announce-track">
+            <span><i class="fas fa-truck-fast"></i> Free delivery around Migori</span>
+            <span><i class="fas fa-shield-halved"></i> 100% genuine, with warranty</span>
+            <span><i class="fab fa-whatsapp"></i> Order in seconds on WhatsApp</span>
+            <span><i class="fas fa-location-dot"></i> Visit us in Mabera Town, Migori</span>
+            <span aria-hidden="true"><i class="fas fa-truck-fast"></i> Free delivery around Migori</span>
+            <span aria-hidden="true"><i class="fas fa-shield-halved"></i> 100% genuine, with warranty</span>
+            <span aria-hidden="true"><i class="fab fa-whatsapp"></i> Order in seconds on WhatsApp</span>
+            <span aria-hidden="true"><i class="fas fa-location-dot"></i> Visit us in Mabera Town, Migori</span>
         </div>
     </div>
 
     <!-- ===== HEADER ===== -->
-    <header class="header">
-        <div class="container header-main">
-            <a href="#hero" class="logo brand-logo" aria-label="Napeiz Electronics home">
-                <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="#top" class="logo" aria-label="Napeiz Electronics home">
+                <img src="images/logo-light.webp" alt="Napeiz Electronics" class="logo-img logo-for-light" width="180" height="64">
+                <img src="images/logo-dark.webp" alt="" class="logo-img logo-for-dark" width="180" height="64">
             </a>
 
-            <div class="search-box">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" placeholder="Search products, brands and categories" aria-label="Search products">
-                <button class="btn-search">SEARCH</button>
+            <nav class="nav" id="nav" aria-label="Main">
+                <a href="#categories">Categories</a>
+                <a href="#deals">Deals</a>
+                <a href="#shop">Shop</a>
+                <a href="#how">How it works</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="search" id="search">
+                <i class="fas fa-magnifying-glass search-icon"></i>
+                <input type="search" id="searchInput" placeholder="Search phones, TVs, speakers…" aria-label="Search products" autocomplete="off">
+                <kbd class="search-kbd">/</kbd>
+                <div class="search-results" id="searchResults" role="listbox"></div>
             </div>
 
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
+                <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i><i class="fas fa-sun"></i>
                 </button>
-                <div class="header-action-item">
-                    <i class="far fa-user"></i>
-                    <span class="action-text">Account</span>
-                </div>
-                <div class="header-action-item">
-                    <i class="far fa-question-circle"></i>
-                    <span class="action-text">Help</span>
-                </div>
-                <button class="cart-btn" id="cartBtn" aria-label="Shopping Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="action-text">Cart</span>
+                <button class="icon-btn cart-btn" id="cartBtn" aria-label="Open cart">
+                    <i class="fas fa-bag-shopping"></i>
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
-                <div class="hamburger" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="header-nav-bottom">
-            <div class="container">
-                <nav class="nav-menu">
-                    <a href="#hero" class="active">Home</a>
-                    <a href="#productsSection">Products</a>
-                    <a href="#featuredSection">Featured</a>
-                    <a href="#brandsSection">Brands</a>
-                    <a href="#contactSection">Contact</a>
-                </nav>
+                <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+                    <span></span><span></span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- ===== HERO SECTION ===== -->
-    <section class="hero" id="hero">
-        <div class="hero-bg-slideshow" id="heroBgSlideshow"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-kicker"><i class="fas fa-bolt"></i> Fast deals on genuine electronics</div>
-                <h1>Shop Electronics Deals <span>Delivered in Migori</span></h1>
-                <p>Buy phones, TVs, laptops, audio gear, gaming consoles, and home appliances from trusted brands. Direct WhatsApp ordering, clear prices, and reliable local support.</p>
-                <div class="hero-actions">
-                    <a href="#productsSection" class="btn btn-primary">
-                        <i class="fas fa-shopping-bag"></i> Shop Now
-                    </a>
-                    <a href="https://wa.me/254708521714" target="_blank" class="btn btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> Chat with Us
-                    </a>
-                </div>
-                <div class="hero-deals">
-                    <span><i class="fas fa-percent"></i> Daily offers</span>
-                    <span><i class="fas fa-shield-alt"></i> Genuine brands</span>
-                    <span><i class="fas fa-truck-fast"></i> Migori delivery</span>
-                </div>
-                <div class="hero-stats" id="heroStats">
-                    <div class="hero-stat">
-                        <h3 id="statProducts">500+</h3>
-                        <p>Products</p>
-                    </div>
-                    <div class="hero-stat">
-                        <h3 id="statBrands">50+</h3>
-                        <p>Brands</p>
-                    </div>
-                    <div class="hero-stat">
-                        <h3 id="statCustomers">1000+</h3>
-                        <p>Happy Customers</p>
-                    </div>
-                </div>
+    <main id="top">
+        <!-- ===== HERO ===== -->
+        <section class="hero" id="hero">
+            <div class="hero-media" aria-hidden="true">
+                <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata"
+                       poster="https://assets.mixkit.co/videos/47051/47051-thumb-720-4.jpg">
+                    <source src="https://assets.mixkit.co/videos/47051/47051-720.mp4" type="video/mp4">
+                </video>
+                <div class="hero-overlay"></div>
+                <div class="hero-grid"></div>
             </div>
-            <div class="hero-image">
-                <div class="hero-market-card">
-                    <div class="deal-header">
-                        <span>Top Picks</span>
-                        <strong>Up to 20% OFF</strong>
+
+            <div class="container hero-inner">
+                <div class="hero-copy">
+                    <span class="pill reveal"><span class="pulse-dot"></span> New stock every week · Mabera, Migori</span>
+                    <h1 class="reveal" style="--d:1">Tech that moves<br><span class="gradient-text">you forward.</span></h1>
+                    <p class="hero-lead reveal" style="--d:2">Genuine phones, smart TVs, sound systems, laptops and home appliances from brands you trust. Clear prices, fast WhatsApp ordering and local delivery.</p>
+                    <div class="hero-ctas reveal" style="--d:3">
+                        <a href="#shop" class="btn btn-primary btn-lg">Shop now <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://wa.me/254708521714" target="_blank" rel="noopener" class="btn btn-glass btn-lg"><i class="fab fa-whatsapp"></i> Chat with us</a>
                     </div>
-                    <div class="deal-products" id="heroDealGrid">
-                        <div class="deal-product main-deal">
-                            <i class="fas fa-tv"></i>
-                            <span>Smart TVs</span>
-                            <strong>From KSh 44,999</strong>
+                    <div class="hero-stats reveal" style="--d:4">
+                        <div><strong data-count="0" id="statProducts">0</strong><span>Products</span></div>
+                        <div><strong data-count="0" id="statBrands">0</strong><span>Brands</span></div>
+                        <div><strong data-count="1000" data-suffix="+" id="statCustomers">0</strong><span>Happy customers</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-spotlight reveal" style="--d:2" id="spotlight" aria-live="polite">
+                    <div class="spot-glow"></div>
+                    <div class="spot-card">
+                        <div class="spot-head">
+                            <span class="spot-tag"><i class="fas fa-bolt"></i> Spotlight deal</span>
+                            <span class="spot-dots" id="spotDots"></span>
                         </div>
-                        <div class="deal-product">
-                            <i class="fas fa-mobile-screen-button"></i>
-                            <span>Phones</span>
-                        </div>
-                        <div class="deal-product">
-                            <i class="fas fa-headphones"></i>
-                            <span>Audio</span>
-                        </div>
-                        <div class="deal-product">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Gaming</span>
+                        <div class="spot-stage" id="spotStage">
+                            <div class="skeleton spot-skel"></div>
                         </div>
                     </div>
-                    <div class="deal-footer">
-                        <i class="fab fa-whatsapp"></i>
-                        Order now via WhatsApp: +254 708 521 714
+                </div>
+            </div>
+
+            <a href="#categories" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+        </section>
+
+        <!-- ===== BRAND MARQUEE ===== -->
+        <section class="brands" aria-label="Brands we stock">
+            <div class="marquee" id="brandMarquee">
+                <div class="marquee-track" id="brandTrack"></div>
+            </div>
+        </section>
+
+        <!-- ===== CATEGORIES ===== -->
+        <section class="section" id="categories">
+            <div class="container">
+                <div class="section-head reveal">
+                    <div>
+                        <span class="eyebrow">Browse</span>
+                        <h2>Shop by category</h2>
+                    </div>
+                    <a href="#shop" class="link-arrow">All products <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="bento" id="bento">
+                    <button class="bento-tile tile-xl reveal" data-cat="tvs-home-theatre" style="--d:0">
+                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1100&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Big screens, bigger sound</small><strong>TVs &amp; Home Theatre</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                    <button class="bento-tile reveal" data-cat="phones-tablets" style="--d:1">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Latest smartphones</small><strong>Phones &amp; Tablets</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                    <button class="bento-tile reveal" data-cat="audio-headphones" style="--d:2">
+                        <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Speakers &amp; headphones</small><strong>Audio</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                    <button class="bento-tile reveal" data-cat="laptops-computers" style="--d:3">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=700&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Work &amp; study</small><strong>Laptops &amp; Computers</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                    <button class="bento-tile reveal" data-cat="home-appliances" style="--d:4">
+                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=700&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Kitchen &amp; home</small><strong>Home Appliances</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                    <button class="bento-tile tile-wide reveal" data-cat="gaming" style="--d:5">
+                        <img src="https://images.unsplash.com/photo-1621259182978-fbf93132d53d?auto=format&fit=crop&w=1100&q=70" alt="" loading="lazy">
+                        <span class="tile-body"><small>Consoles &amp; accessories</small><strong>Gaming</strong><em>Shop now <i class="fas fa-arrow-right"></i></em></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DEALS CAROUSEL ===== -->
+        <section class="section section-tint" id="deals">
+            <div class="container">
+                <div class="section-head reveal">
+                    <div>
+                        <span class="eyebrow eyebrow-hot"><i class="fas fa-fire"></i> Hot right now</span>
+                        <h2>Today's top deals</h2>
+                    </div>
+                    <div class="deals-meta">
+                        <div class="countdown" aria-label="Time left today">
+                            <span>Ends in</span>
+                            <b id="cdH">00</b>:<b id="cdM">00</b>:<b id="cdS">00</b>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="icon-btn" data-scroll="-1" aria-label="Previous deals"><i class="fas fa-chevron-left"></i></button>
+                            <button class="icon-btn" data-scroll="1" aria-label="Next deals"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
                 </div>
+                <div class="carousel" id="dealsCarousel">
+                    <div class="card skeleton-card"></div><div class="card skeleton-card"></div><div class="card skeleton-card"></div><div class="card skeleton-card"></div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ===== FEATURES SECTION ===== -->
-    <section class="features">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
-                    <div class="feature-text">
-                        <h3>Free Delivery</h3>
-                        <p>Same-day Migori delivery available.</p>
+        <!-- ===== SHOP ===== -->
+        <section class="section" id="shop">
+            <div class="container">
+                <div class="section-head reveal">
+                    <div>
+                        <span class="eyebrow">Catalogue</span>
+                        <h2>Explore all products</h2>
+                    </div>
+                    <p class="result-count" id="resultCount"></p>
+                </div>
+
+                <div class="toolbar" id="toolbar">
+                    <div class="chips" id="categoryChips" role="tablist" aria-label="Categories">
+                        <button class="chip active" data-category="all">All</button>
+                    </div>
+                    <div class="toolbar-selects">
+                        <label class="select">
+                            <i class="fas fa-tag"></i>
+                            <select id="brandFilter" aria-label="Filter by brand"><option value="all">All brands</option></select>
+                        </label>
+                        <label class="select">
+                            <i class="fas fa-arrow-down-wide-short"></i>
+                            <select id="sortFilter" aria-label="Sort products">
+                                <option value="newest">Newest</option>
+                                <option value="discount">Biggest discount</option>
+                                <option value="price_asc">Price: low to high</option>
+                                <option value="price_desc">Price: high to low</option>
+                            </select>
+                        </label>
                     </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-check"></i></div>
-                    <div class="feature-text">
-                        <h3>100% Genuine</h3>
-                        <p>Authentic with full warranty.</p>
+
+                <div class="grid" id="productGrid" aria-live="polite"></div>
+                <div class="grid-footer">
+                    <div id="gridSentinel"></div>
+                    <button class="btn btn-outline" id="loadMore" hidden>Show more products</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROMO BANNERS ===== -->
+        <section class="section section-tight">
+            <div class="container promos">
+                <article class="promo promo-audio reveal" data-cat="audio-headphones">
+                    <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1200&q=70" alt="" loading="lazy">
+                    <div class="promo-body">
+                        <span class="eyebrow light">Audio week</span>
+                        <h3>Sound that fills<br>the whole room.</h3>
+                        <span class="btn btn-light btn-sm">Shop audio <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </article>
+                <article class="promo promo-tv reveal" style="--d:1" data-cat="tvs-home-theatre">
+                    <video autoplay muted loop playsinline preload="none" poster="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=1200&q=70" class="lazy-video">
+                        <source data-src="https://assets.mixkit.co/videos/43527/43527-720.mp4" type="video/mp4">
+                    </video>
+                    <div class="promo-body">
+                        <span class="eyebrow light">Upgrade your setup</span>
+                        <h3>Smart TVs &amp; gear<br>for every screen.</h3>
+                        <span class="btn btn-light btn-sm">Explore TVs <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===== HOW IT WORKS ===== -->
+        <section class="section" id="how">
+            <div class="container">
+                <div class="section-head center reveal">
+                    <div>
+                        <span class="eyebrow">Simple &amp; fast</span>
+                        <h2>Order in three easy steps</h2>
                     </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                    <div class="feature-text">
-                        <h3>24/7 Support</h3>
-                        <p>Always here to help you.</p>
+                <div class="steps">
+                    <div class="step reveal" style="--d:0">
+                        <span class="step-num">01</span>
+                        <div class="step-icon"><i class="fas fa-hand-pointer"></i></div>
+                        <h3>Pick your gear</h3>
+                        <p>Browse genuine products and add what you love to your bag.</p>
+                    </div>
+                    <div class="step reveal" style="--d:1">
+                        <span class="step-num">02</span>
+                        <div class="step-icon"><i class="fab fa-whatsapp"></i></div>
+                        <h3>Send on WhatsApp</h3>
+                        <p>Your order is pre-filled. One tap and we confirm price and stock.</p>
+                    </div>
+                    <div class="step reveal" style="--d:2">
+                        <span class="step-num">03</span>
+                        <div class="step-icon"><i class="fas fa-truck-fast"></i></div>
+                        <h3>Get it delivered</h3>
+                        <p>Free delivery around Migori, or collect from our Mabera shop.</p>
                     </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
-                    <div class="feature-text">
-                        <h3>Easy Returns</h3>
-                        <p>7-day hassle-free returns.</p>
+
+                <div class="perks reveal">
+                    <div class="perk"><i class="fas fa-shield-halved"></i><div><strong>100% genuine</strong><span>Full manufacturer warranty</span></div></div>
+                    <div class="perk"><i class="fas fa-rotate-left"></i><div><strong>Easy returns</strong><span>7-day hassle-free returns</span></div></div>
+                    <div class="perk"><i class="fas fa-headset"></i><div><strong>Real support</strong><span>Talk to a person, fast</span></div></div>
+                    <div class="perk"><i class="fas fa-mobile-screen"></i><div><strong>M-Pesa friendly</strong><span>Pay the way you prefer</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NEWSLETTER ===== -->
+        <section class="section section-tight">
+            <div class="container">
+                <div class="newsletter reveal">
+                    <div class="newsletter-glow"></div>
+                    <div class="newsletter-copy">
+                        <h2>Be first to grab the deals.</h2>
+                        <p>New arrivals and price drops, straight to your inbox. No spam, ever.</p>
                     </div>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" id="newsletterEmail" placeholder="you@email.com" required aria-label="Email address">
+                        <button type="submit" class="btn btn-primary">Subscribe <i class="fas fa-paper-plane"></i></button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ===== MARKETPLACE BRAND STRIP ===== -->
-    <section class="marketplace-strip" aria-label="Popular electronics brands">
-        <div class="container">
-            <div class="marketplace-head">
-                <div>
-                    <span>Shop by official brand</span>
-                    <h2>Popular picks at Napeiz Electronics</h2>
-                </div>
-                <a href="#productsSection">View all products <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="logo-marquee">
-                <a href="#productsSection" class="brand-logo-card" aria-label="Samsung products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/samsung.svg" alt="Samsung logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="Apple products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/apple.svg" alt="Apple logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="Sony products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/sony.svg" alt="Sony logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="LG products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/lg.svg" alt="LG logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="JBL products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/jbl.svg" alt="JBL logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="Nintendo products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nintendo.svg" alt="Nintendo logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="Dyson products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/dyson.svg" alt="Dyson logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="Bose products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bose.svg" alt="Bose logo" loading="lazy">
-                </a>
-                <a href="#productsSection" class="brand-logo-card" aria-label="HP products">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hp.svg" alt="HP logo" loading="lazy">
-                </a>
-            </div>
-            <div class="marketplace-promos">
-                <span><i class="fas fa-fire"></i> Flash-style offers</span>
-                <span><i class="fas fa-truck"></i> Delivery around Migori</span>
-                <span><i class="fas fa-shield-halved"></i> Genuine electronics only</span>
-                <span><i class="fab fa-whatsapp"></i> Order directly on WhatsApp</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FILTER SECTION ===== -->
-    <div class="filter-section" id="productsSection">
-        <div class="container">
-            <div class="filter-group" id="categoryFilters">
-                <!-- Dynamic categories from DB -->
-                <button class="filter-btn category-filter active" data-category="all">All</button>
-            </div>
-            <div class="filter-group">
-                <select id="brandFilter" class="search-filter">
-                    <option value="all">All Brands</option>
-                </select>
-                <select id="sortFilter" class="search-filter">
-                    <option value="newest">Newest</option>
-                    <option value="price_asc">Price: Low to High</option>
-                    <option value="price_desc">Price: High to Low</option>
-                    <option value="rating">Highest Rated</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== PRODUCTS SECTION ===== -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Products</h2>
-                <p>Browse our extensive collection of premium electronics from top global brands.</p>
-            </div>
-            <div class="product-grid" id="productGrid">
-                <div class="loading" style="display:block;">
-                    <div class="loading-spinner"></div>
-                    <p>Loading products...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FEATURED PRODUCTS ===== -->
-    <section class="section" id="featuredSection" style="background:var(--gray);">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Products</h2>
-                <p>Hand-picked top deals and new arrivals you don't want to miss.</p>
-            </div>
-            <div class="product-grid" id="featuredGrid">
-                <div class="loading" style="display:block;">
-                    <div class="loading-spinner"></div>
-                    <p>Loading featured products...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== BRANDS SECTION ===== -->
-    <section class="brands-section" id="brandsSection">
-        <div class="container">
-            <div class="section-header">
-                <h2>Top Brands</h2>
-                <p>We stock products from the world's most trusted electronics brands.</p>
-            </div>
-            <div class="brands-grid" id="brandsGrid">
-                <div class="loading" style="display:block;">
-                    <div class="loading-spinner"></div>
-                    <p>Loading brands...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== NEWSLETTER ===== -->
-    <section class="newsletter">
-        <div class="container">
-            <h2>Stay Updated</h2>
-            <p>Subscribe to receive notifications about new arrivals, exclusive deals, and special offers.</p>
-            <form class="newsletter-form" id="newsletterForm">
-                <input type="email" id="newsletterEmail" placeholder="Enter your email address" required>
-                <button type="submit" class="btn btn-secondary">Subscribe</button>
-            </form>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="footer" id="contactSection">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="#hero" class="logo brand-logo footer-brand-logo" aria-label="Napeiz Electronics home">
-                        <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
-                    </a>
-                    <p>Your trusted destination for premium electronic appliances and accessories. We offer the best brands at competitive prices with exceptional customer service.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://wa.me/254708521714" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#productsSection"><i class="fas fa-chevron-right"></i> All Products</a></li>
-                        <li><a href="#featuredSection"><i class="fas fa-chevron-right"></i> Featured Deals</a></li>
-                        <li><a href="#brandsSection"><i class="fas fa-chevron-right"></i> Top Brands</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Categories</h3>
-                    <ul class="footer-links" id="footerCategories">
-                        <li><a href="#productsSection"><i class="fas fa-chevron-right"></i> Loading...</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h3>Contact Us</h3>
-                    <ul class="contact-info">
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Mabera Town, Migori<br>Kenya</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone"></i>
-                            <span>+254 708 521 714</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>info@napeizelectronics.co.ke</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Mon - Sat: 8:00 AM - 7:00 PM<br>Sun: 10:00 AM - 4:00 PM</span>
-                        </li>
-                    </ul>
+    <footer class="footer" id="contact">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <img src="images/logo-dark.webp" alt="Napeiz Electronics" class="footer-logo" width="180" height="64" loading="lazy">
+                <p>Your trusted destination for genuine electronics in Migori. Great brands, honest prices, real people.</p>
+                <div class="socials">
+                    <a href="https://wa.me/254708521714" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2024 Napeiz Electronics Accessories. All rights reserved. | Powered by <strong>Napeiz Technologies</strong></p>
+            <div>
+                <h4>Shop</h4>
+                <ul id="footerCategories"></ul>
             </div>
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#how">How ordering works</a></li>
+                    <li><a href="#deals">Today's deals</a></li>
+                    <li><a href="admin.html">Staff login</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Visit or call</h4>
+                <ul class="contact-list">
+                    <li><i class="fas fa-location-dot"></i> Mabera Town, Migori, Kenya</li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+254708521714">+254 708 521 714</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@napeizelectronics.co.ke">info@napeizelectronics.co.ke</a></li>
+                    <li><i class="fas fa-clock"></i> Mon–Sat 8am–7pm · Sun 10am–4pm</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; <span id="year">2026</span> Napeiz Electronics Accessories. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- ===== PRODUCT MODAL ===== -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Product Details</h2>
-                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Dynamic content -->
-            </div>
+    <!-- ===== FLOATING ===== -->
+    <a href="https://wa.me/254708521714" target="_blank" rel="noopener" class="fab-whatsapp" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <button class="to-top" id="toTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- ===== QUICK VIEW ===== -->
+    <div class="overlay" id="productModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-label="Product details">
+            <button class="icon-btn modal-close" data-close aria-label="Close"><i class="fas fa-xmark"></i></button>
+            <div class="modal-body" id="productModalBody"></div>
         </div>
     </div>
 
-    <!-- ===== CART MODAL ===== -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content" style="max-width:700px;">
-            <div class="modal-header">
-                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
-                <button class="modal-close" onclick="closeModal('cartModal')">&times;</button>
+    <!-- ===== CART DRAWER ===== -->
+    <div class="overlay overlay-drawer" id="cartDrawer" aria-hidden="true">
+        <aside class="drawer" role="dialog" aria-modal="true" aria-label="Your cart">
+            <div class="drawer-head">
+                <h3>Your bag <span id="cartHeadCount"></span></h3>
+                <button class="icon-btn" data-close aria-label="Close cart"><i class="fas fa-xmark"></i></button>
             </div>
-            <div class="modal-body">
-                <!-- Dynamic content -->
-            </div>
-        </div>
+            <div class="drawer-body" id="cartBody"></div>
+            <div class="drawer-foot" id="cartFoot"></div>
+        </aside>
     </div>
 
-    <!-- ===== TOAST ===== -->
-    <div class="toast" id="toast"></div>
-    </div><!-- End storeContent -->
+    <div class="toasts" id="toasts" aria-live="polite"></div>
 
-    <!-- ===== ADMIN CONTENT ===== -->
-    <div id="adminContent" style="display:none;">
-        <!-- Admin Login Section -->
-        <div id="adminLoginContainer" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
-            <div class="login-card" style="background:var(--white);border-radius:var(--radius);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.1);animation:slideUp 0.5s ease;">
-                <div class="logo brand-logo login-brand-logo" aria-label="Napeiz Electronics administration">
-                    <img src="images/napeiz-logo_opt.webp" alt="Napeiz Electronics" class="brand-logo-img">
-                </div>
-                
-                <div style="text-align:center;margin-bottom:25px;">
-                    <div style="width:60px;height:60px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
-                        <i class="fas fa-lock" style="font-size:24px;color:var(--primary);"></i>
-                    </div>
-                    <p style="color:var(--text-light);font-size:14px;">Restricted access. Authorized personnel only.</p>
-                </div>
-
-                <div id="loginError" class="login-error" style="display:none;color:var(--danger);background:#fde8e8;padding:12px 15px;border-radius:var(--radius-sm);margin-bottom:20px;font-size:14px;text-align:center;border-left:4px solid var(--danger);"></div>
-
-                <form id="adminLoginForm" autocomplete="off">
-                    <div class="form-group">
-                        <label for="adminUsername" style="font-size:13px;"><i class="fas fa-user" style="width:16px;"></i> Username or Email</label>
-                        <input type="text" id="adminUsername" placeholder="Enter admin username or email" required autocomplete="off" autofocus style="background:var(--gray);width:100%;padding:10px 12px;border:2px solid var(--gray-dark);border-radius:var(--radius-sm);font-size:14px;outline:none;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:20px;">
-                        <label for="adminPassword" style="font-size:13px;"><i class="fas fa-key" style="width:16px;"></i> Password</label>
-                        <div style="position:relative;">
-                            <input type="password" id="adminPassword" placeholder="Enter password" required autocomplete="off" style="background:var(--gray);width:100%;padding:10px 12px;padding-right:45px;border:2px solid var(--gray-dark);border-radius:var(--radius-sm);font-size:14px;outline:none;">
-                            <button type="button" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-light);cursor:pointer;font-size:16px;" onclick="toggleAdminPassword()" aria-label="Toggle password visibility">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block" id="adminLoginBtn" style="padding:14px;width:100%;">
-                        <i class="fas fa-sign-in-alt"></i> <span id="adminLoginBtnText">Login to Dashboard</span>
-                    </button>
-                </form>
-
-                <div style="text-align:center;margin-top:25px;padding-top:20px;border-top:1px solid var(--gray);">
-                    <a href="/" style="color:var(--primary);font-weight:600;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to Store</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Dashboard Section -->
-        <div id="adminDashboardContainer" style="display:none;">
-            <iframe id="adminDashboardIframe" src="admin-dashboard.html" style="width:100%;height:100vh;border:none;"></iframe>
-        </div>
-    </div><!-- End adminContent -->
-
-    <!-- ===== TOAST ===== -->
-    <div class="toast" id="toast"></div>
-
-    <!-- ===== SCRIPTS ===== -->
-    <!-- Theme toggle (runs synchronously to prevent flash) -->
-    <script>
-        (function(){
-            var t=localStorage.getItem('napeiz-theme');
-            if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
-        })();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/database.js"></script>
-    <script src="js/router.js"></script>
-    <script>
-        // ===== THEME TOGGLE HANDLER =====
-        document.addEventListener('DOMContentLoaded', function(){
-            var btn=document.getElementById('themeToggle');
-            if(!btn) return;
-            btn.addEventListener('click', function(){
-                var isDark=document.documentElement.getAttribute('data-theme')==='dark';
-                if(isDark){
-                    document.documentElement.removeAttribute('data-theme');
-                    localStorage.setItem('napeiz-theme','light');
-                }else{
-                    document.documentElement.setAttribute('data-theme','dark');
-                    localStorage.setItem('napeiz-theme','dark');
-                }
-            });
-        });
-        // ===== ADMIN LOGIN HANDLER =====
-        function toggleAdminPassword() {
-            const pwd = document.getElementById('adminPassword');
-            const icon = document.querySelector('#adminPassword ~ button i');
-            if (pwd.type === 'password') {
-                pwd.type = 'text';
-                icon.className = 'fas fa-eye-slash';
-            } else {
-                pwd.type = 'password';
-                icon.className = 'fas fa-eye';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const form = document.getElementById('adminLoginForm');
-            const loginBtn = document.getElementById('adminLoginBtn');
-            const loginBtnText = document.getElementById('adminLoginBtnText');
-            const errorMsg = document.getElementById('loginError');
-
-            // Initialize Supabase
-            const connected = await DB.init();
-            if (!connected) {
-                errorMsg.textContent = 'Could not connect to database. Check your Supabase configuration.';
-                errorMsg.style.display = 'block';
-            }
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                errorMsg.style.display = 'none';
-                
-                const username = document.getElementById('adminUsername').value.trim();
-                const password = document.getElementById('adminPassword').value;
-
-                if (!username || !password) {
-                    errorMsg.textContent = 'Please enter both username and password.';
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-
-                // Show loading state
-                loginBtn.disabled = true;
-                loginBtnText.textContent = 'Authenticating...';
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
-
-                try {
-                    const session = await DB.login(username, password);
-                    
-                    // Success
-                    errorMsg.style.display = 'none';
-                    loginBtn.innerHTML = '<i class="fas fa-check-circle"></i> Success! Redirecting...';
-                    loginBtn.style.background = 'var(--success)';
-                    
-                    setTimeout(() => {
-                        Router.showAdminDashboard();
-                    }, 800);
-                } catch (err) {
-                    console.error('Admin login failed:', err);
-                    const message = err.message || 'Invalid username or password.';
-                    errorMsg.textContent = message;
-                    errorMsg.style.display = 'block';
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
-                }
-            });
-
-            // Allow Enter key to submit
-            document.getElementById('adminPassword').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
-            });
-        });
-    </script>
-    <!-- Scroll-reveal animations -->
-    <script>
-        (function(){
-            var observer=new IntersectionObserver(function(entries){
-                entries.forEach(function(entry){
-                    if(entry.isIntersecting){
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-            document.addEventListener('DOMContentLoaded',function(){
-                document.querySelectorAll('.section,.features,.marketplace-strip,.brands-section,.newsletter,.footer,.filter-section').forEach(function(el){
-                    el.classList.add('reveal');
-                    observer.observe(el);
-                });
-            });
-        })();
-    </script>
-    <script src="js/store.js?v=2"></script>
+    <script src="js/store.js?v=3"></script>
 </body>
 </html>

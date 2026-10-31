@@ -103,6 +103,19 @@ const DB = {
         return { products: data, count };
     },
 
+    // Storefront: one lightweight fetch of every active product (no descriptions/specs).
+    // Filtering, sorting and search then run client-side, so the shop never re-queries.
+    async getCatalog() {
+        const { data, error } = await this.client
+            .from('products')
+            .select('id, name, price, old_price, main_image, category_id, brand_id, is_featured, is_new, is_best_seller, in_stock, rating, review_count, created_at')
+            .eq('is_active', true)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        return data || [];
+    },
+
     async getProductBySlug(slug) {
         const { data, error } = await this.client
             .from('products')

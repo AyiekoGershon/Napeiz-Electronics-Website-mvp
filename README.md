@@ -81,13 +81,14 @@ Napeiz Electronics Accessories/
 ├── admin.html                 # Legacy admin login (deprecated)
 ├── admin-dashboard.html       # Admin dashboard interface
 ├── css/
-│   └── style.css             # All styling
+│   ├── store.css             # Storefront styling (index.html)
+│   └── style.css             # Admin styling (admin pages use style.min.css)
 ├── js/
 │   ├── supabase-config.js    # Supabase initialization
 │   ├── database.js           # Database operations (DB object)
 │   ├── store.js              # Store UI logic and interactions
 │   ├── admin-dashboard.js    # Admin dashboard logic
-│   └── router.js             # Client-side routing
+│   └── router.js             # Legacy routing (no longer loaded; /admin redirects to admin.html)
 ├── supabase/
 │   └── schema.sql            # Database schema & RLS policies
 ├── data/
